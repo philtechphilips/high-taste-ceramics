@@ -21,7 +21,7 @@ const Navbar = () => {
       </div>
 
       <div className="w-full md:px-25 bg-[#EFEBE2] border-b text-[#242222] border-[rgba(36,34,34,0.15)] py-4 px-4 flex items-center justify-between">
-        <Image alt="logo" width={80} height={80} src="/images/logo.png" />
+        <Image alt="logo" width={80} height={80} src="/logo.png" />
 
         <ul className="md:flex items-center gap-8 font-normal hidden">
           <li>
@@ -70,7 +70,7 @@ const Navbar = () => {
         </div>
 
         <div className="w-full md:px-25 bg-transparent border-b text-[#242222] border-[rgba(36,34,34,0.15)] py-4 px-4 flex items-center justify-between">
-          <Image alt="logo" width={80} height={80} src="/images/logo.png" />
+          <Image alt="logo" width={80} height={80} src="/logo.png" />
           <div className="flex gap-4">
             <i className="ri-user-line text-xl"></i>
             <i className="ri-shopping-bag-line text-xl"></i>

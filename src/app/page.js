@@ -41,7 +41,7 @@ export default function Home() {
             data-aos-anchor-placement="top-center"
             className="md:text-5xl  text-4xl font-normal text-[#242222] text-center leading-14"
           >
-            Build with Elegance. Choose High Taste Ceramics.
+            Elevate Your Spaces with Timeless Elegance.
           </h1>
           <p
             data-aos="fade-up"
@@ -53,9 +53,7 @@ export default function Home() {
             data-aos-anchor-placement="top-center"
             className=" text-center text-[#242222] font-light"
           >
-            Supplying quality building materials for homes, offices, and
-            commercial projects. Stylish fittings, tiles, and doors crafted for
-            lasting beauty and performance.
+          High Taste Ceramics offers a curated selection of premium tiles, bathroom fittings, and kitchen solutions designed to meet your taste for luxury and quality.
           </p>
 
           <Link
@@ -69,7 +67,7 @@ export default function Home() {
             href="/"
             className="text-sm font-semibold px-7 py-2 rounded-full border border-[#242222] w-fit hover:bg-[#242222] hover:text-white"
           >
-            Shop Now
+            Explore Collections
           </Link>
         </div>
 
@@ -86,7 +84,7 @@ export default function Home() {
           <div style={{ position: "relative", width: "100%", height: "700px" }}>
             <Image
               alt="hero-image"
-              src="/images/hero-image.jpg"
+              src="/hero-image.jpg"
               fill
               style={{ objectFit: "cover" }}
             />

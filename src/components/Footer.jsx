@@ -37,7 +37,15 @@ const Footer = () => {
           </p>
         </div>
         <div className="w-full md:w-1/6 flex flex-col gap-4 md:pr-16">
-          <h4 className="text-xl text-[#eeeeee]">Socials</h4>
+          <h4 className="text-xl text-[#eeeeee]">Contact</h4>
+            <div className="flex flex-col gap-2">
+         <p className="text-[#A8A8A8]">
+            +123 456 789 900
+          </p>
+           <p className="text-[#A8A8A8]">
+            hello@gmail.com
+          </p>
+          </div>
           <div className="flex gap-2">
             <i className="ri-facebook-box-fill text-xl text-[#A8A8A8]"></i>
             <i className="ri-instagram-fill text-xl text-[#A8A8A8]"></i>
