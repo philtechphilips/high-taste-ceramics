@@ -1,8 +1,8 @@
 "use client"
 
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
@@ -11,108 +11,145 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
 
-const About = () => {
+const Products = () => {
   return (
     <>
       <Navbar />
-      <section className="pt-80 pb-20 md:px-25 px-5 bg-[#EFEBE2]">
-        <div className="flex md:flex-row flex-col md:gap-30 gap-20 justify-between items-center ">
-          <div className="md:w-1/2">
-            <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
-              Who we are
-            </h1>
-            <p className="text-[#242222] mb-8 text-lg mt-4">
-              High Taste Ceramics is Nigeria’s premium destination for
-              high-quality tiles, sanitary ware, and luxury bathroom solutions.
-              We blend timeless style with modern functionality.
+      <section className="w-full py-40 pt-80 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-25 px-5">
+        <div className="w-full flex flex-col gap-8 items-center border-b border-[rgba(36,34,34,0.15)] pb-10 mb-14">
+          <h1
+            data-aos="fade-up"
+            data-aos-offset="200"
+            data-aos-duration="500"
+            data-aos-easing="ease-in-out"
+            data-aos-mirror="true"
+            data-aos-once="true"
+            data-aos-anchor-placement="top-center"
+            className="md:text-[140px] text-4xl !font-[300] text-[#242222] font-[Publicko] text-center leading-18 "
+          >
+            Products
+          </h1>
+        </div>
+
+        <div
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-duration="500"
+          data-aos-easing="ease-in-out"
+          data-aos-mirror="true"
+          data-aos-once="true"
+          data-aos-anchor-placement="top-center"
+          className="w-full mt-12 px-5 md:px-20"
+        >
+          <div style={{ position: "relative", width: "100%", height: "700px" }}>
+            <Image
+              alt="hero-image"
+              src="/hero.jpg"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full bg-white md:px-25 px-4 py-20">
+        <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
+          Our Collections
+        </h1>
+
+        <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-12 md:gap-y-24 gap-y-12 mt-20">
+          <div className="overflow-hidden group relative cursor-pointer">
+            <div className="relative h-120 overflow-hidden">
+              <Image
+                src="/NYC Lobby - Terrazzo Flooring.jpeg"
+                alt="image"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                data-aos="fade-up"
+                data-aos-offset="200"
+                data-aos-duration="500"
+                data-aos-easing="ease-in-out"
+                data-aos-mirror="true"
+                data-aos-once="true"
+                data-aos-anchor-placement="top-center"
+              />
+            </div>
+            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              Tiles
             </p>
-
-            <Link
-              data-aos="fade-up"
-              data-aos-offset="200"
-              data-aos-duration="500"
-              data-aos-easing="ease-in-out"
-              data-aos-mirror="true"
-              data-aos-once="true"
-              data-aos-anchor-placement="top-center"
-              href="/"
-              className="text-sm mt-8 font-semibold px-7 py-2 rounded-full border border-[#242222] w-fit hover:bg-[#242222] hover:text-white"
-            >
-              Visit our showroom
-            </Link>
           </div>
-          <div className="md:w-1/2 w-full md:h-120 h-100 relative">
-            <Image src="/bathtub.jpg" alt="bathtub" fill></Image>
+
+          <div className="overflow-hidden group relative cursor-pointer">
+            <div className="relative h-120 overflow-hidden">
+              <Image
+                src="/WC-S.jpg"
+                alt="image"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              Sanitary Ware
+            </p>
+          </div>
+
+          <div className="overflow-hidden group relative cursor-pointer">
+            <div className="relative h-120 overflow-hidden">
+              <Image
+                src="/shower.jpg"
+                alt="image"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              Bathroom Fittings
+            </p>
+          </div>
+
+          <div className="overflow-hidden group relative cursor-pointer">
+            <div className="relative h-120 overflow-hidden">
+              <Image
+                src="/bathroom-fittings.jpg"
+                alt="image"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              Bathroom Furniture
+            </p>
+          </div>
+
+          <div className="overflow-hidden group relative cursor-pointer">
+            <div className="relative h-120 overflow-hidden">
+              <Image
+                src="/bathtub.jpg"
+                alt="image"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              Bathtubs & Jacuzzi
+            </p>
+          </div>
+
+          <div className="overflow-hidden group relative cursor-pointer">
+            <div className="relative h-120 overflow-hidden">
+              <Image
+                src="/kitchen.jpeg"
+                alt="image"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              Kitchen Designs
+            </p>
           </div>
         </div>
       </section>
-
-      <section className="bg-[#EFEBE2] py-20 px-5 md:px-24 text-[#242222]">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl font-[Publicko] font-[300] mb-6">
-            Our Mission & Vision
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12 text-left">
-            {/* Mission Card */}
-            <div className="p-8 rounded-2xl bg-[#EFEBE2]/20 backdrop-blur-md border border-white/30 shadow-sm transition hover:bg-[#EFEBE2]/30">
-              <h3 className="text-2xl font-semibold mb-4">Mission</h3>
-              <p className="text-base leading-relaxed">
-                To deliver lasting quality, innovative design, and exceptional
-                service — helping our clients create spaces that reflect their
-                style and sophistication.
-              </p>
-            </div>
-
-            {/* Vision Card */}
-            <div className="p-8 rounded-2xl bg-[#EFEBE2]/20 backdrop-blur-md border border-white/30 shadow-sm transition hover:bg-[#EFEBE2]/30">
-              <h3 className="text-2xl font-semibold mb-4">Vision</h3>
-              <p className="text-base leading-relaxed">
-                To be Africa's leading brand for luxury tiles and bathroom
-                solutions, inspiring design excellence and setting the standard
-                for quality and elegance.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* <section className="py-20 md:px-25 px-5 bg-white">
-        <div className="flex md:flex-row flex-col md:gap-50 gap-20 justify-between items-center ">
-          <div className="md:w-1/2">
-            <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
-              Core Values
-            </h1>
-
-            <div className="flex items-center text-lg gap-2">
-              <i class="ri-check-double-line"></i>
-              <p>Quality</p>
-            </div>
-
-            <div className="flex items-center text-lg gap-2">
-              <i class="ri-check-double-line"></i>
-              <p>Trust</p>
-            </div>
-
-            <div className="flex items-center text-lg gap-2">
-              <i class="ri-check-double-line"></i>
-              <p>Customer-Centric</p>
-            </div>
-
-            <div className="flex items-center text-lg gap-2">
-              <i class="ri-check-double-line"></i>
-              <p>Quality</p>
-            </div>
-
-            <div className="flex items-center text-lg gap-2">
-              <i class="ri-check-double-line"></i>
-              <p>Professionalism</p>
-            </div>
-          </div>
-          <div className="md:w-1/2 w-full md:h-160 h-100 relative">
-            <Image src="/bathtub.jpg" alt="bathtub" fill></Image>
-          </div>
-        </div>
-      </section> */}
 
       <section className="w-full bg-[#EFEBE2] md:px-25 px-4 py-20">
         <div className="flex items-center justify-between">
@@ -260,4 +297,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Products;

@@ -35,7 +35,9 @@ const Navbar = () => {
           newStyle = {
             backgroundColor: bgColor,
             color: isDark ? "#FFFFFF" : "#242222",
-            borderBottomColor: isDark ? "rgba(255,255,255,0.3)" : "rgba(36,34,34,0.15)",
+            borderBottomColor: isDark
+              ? "rgba(255,255,255,0.3)"
+              : "rgba(36,34,34,0.15)",
           };
           newLogoSrc = isDark ? "/logo white.png" : "/logo.png";
         }
@@ -77,22 +79,27 @@ const Navbar = () => {
 
         <ul className="md:flex items-center gap-8 font-normal hidden">
           <li>
-            <Link href="" className="font-semibold text-sm">
+            <Link href="/" className="font-semibold text-sm">
               Home
             </Link>
           </li>
           <li>
-            <Link href="" className="font-semibold text-sm">
+            <Link href="/about-us" className="font-semibold text-sm">
               About Us
             </Link>
           </li>
           <li>
-            <Link href="" className="font-semibold text-sm">
+            <Link href="/products" className="font-semibold text-sm">
               Products
             </Link>
           </li>
           <li>
-            <Link href="" className="font-semibold text-sm">
+            <Link href="/blogs" className="font-semibold text-sm">
+              Blogs
+            </Link>
+          </li>
+          <li>
+            <Link href="/contact-us" className="font-semibold text-sm">
               Contact Us
             </Link>
           </li>
@@ -109,12 +116,12 @@ const Navbar = () => {
         </div>
       </div>
 
-         <div
+      <div
         className="w-full md:px-25 border-b py-4 px-4 md:flex hidden items-center justify-between fixed top-[113px] z-50"
         style={navbarStyle}
       >
-             <ul className="md:flex items-center justify-between w-full font-normal hidden">
-                 <li>
+        <ul className="md:flex items-center justify-between w-full font-normal hidden">
+          <li>
             <Link href="" className="font-semibold text-sm">
               New Arrival
             </Link>
@@ -126,7 +133,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link href="" className="font-semibold text-sm">
-             Sanitary Ware
+              Sanitary Ware
             </Link>
           </li>
           <li>
@@ -136,22 +143,22 @@ const Navbar = () => {
           </li>
           <li>
             <Link href="" className="font-semibold text-sm">
-             Bathtubs & Jacuzzi
+              Bathtubs & Jacuzzi
             </Link>
           </li>
-           <li>
+          <li>
             <Link href="" className="font-semibold text-sm">
-             Bathtubs & Jacuzzi
+              Bathtubs & Jacuzzi
             </Link>
           </li>
-           <li>
+          <li>
             <Link href="" className="font-semibold text-sm">
-             Bathroom Furniture
+              Bathroom Furniture
             </Link>
           </li>
-           <li>
+          <li>
             <Link href="" className="font-semibold text-sm">
-             Kitchen Solutions
+              Kitchen Solutions
             </Link>
           </li>
         </ul>
@@ -183,22 +190,27 @@ const Navbar = () => {
 
         <ul className="flex flex-col gap-8 font-normal px-5 mt-10">
           <li className="border-b py-2 border-[rgba(36,34,34,0.15)]">
-            <Link href="" className="font-semibold text-sm">
+            <Link href="/" className="font-semibold text-sm">
               Home
             </Link>
           </li>
           <li className="border-b py-2 border-[rgba(36,34,34,0.15)]">
-            <Link href="" className="font-semibold text-sm">
+            <Link href="about-us" className="font-semibold text-sm">
               About Us
             </Link>
           </li>
           <li className="border-b py-2 border-[rgba(36,34,34,0.15)]">
-            <Link href="" className="font-semibold text-sm">
+            <Link href="/products" className="font-semibold text-sm">
               Products
             </Link>
           </li>
           <li className="border-b py-2 border-[rgba(36,34,34,0.15)]">
-            <Link href="" className="font-semibold text-sm">
+            <Link href="/blogs" className="font-semibold text-sm">
+              Blogs
+            </Link>
+          </li>
+          <li className="border-b py-2 border-[rgba(36,34,34,0.15)]">
+            <Link href="/contact-us" className="font-semibold text-sm">
               Contact Us
             </Link>
           </li>

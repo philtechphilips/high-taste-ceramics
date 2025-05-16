@@ -27,7 +27,7 @@
     src:
         url("/fonts/Publicko.woff")format("woff"),
         url("/fonts/Publicko.woff2")format("woff2");
-    font-weight:normal;
+    font-weight: 300 !important;
     font-style:normal;
     font-display:swap;
 }
