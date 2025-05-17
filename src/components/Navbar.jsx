@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import "remixicon/fonts/remixicon.css";
 
@@ -12,6 +13,7 @@ const Navbar = () => {
     borderBottomColor: "rgba(36,34,34,0.15)",
   });
   const [logoSrc, setLogoSrc] = useState("/logo.png");
+  const pathname = usePathname();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -77,32 +79,27 @@ const Navbar = () => {
       >
         <Image alt="logo" width={80} height={80} src={logoSrc} />
 
-        <ul className="md:flex items-center gap-8 font-normal hidden">
-          <li>
-            <Link href="/" className="font-semibold text-sm">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/about-us" className="font-semibold text-sm">
-              About Us
-            </Link>
-          </li>
-          <li>
-            <Link href="/products" className="font-semibold text-sm">
-              Products
-            </Link>
-          </li>
-          <li>
-            <Link href="/blogs" className="font-semibold text-sm">
-              Blogs
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact-us" className="font-semibold text-sm">
-              Contact Us
-            </Link>
-          </li>
+        <ul className="md:flex items-center gap-12 font-normal hidden">
+          {[
+            { name: "Home", href: "/" },
+            { name: "About Us", href: "/about-us" },
+            { name: "Products", href: "/products" },
+            { name: "Blogs", href: "/blogs" },
+            { name: "Contact Us", href: "/contact-us" },
+          ].map(({ name, href }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className={`relative font-semibold text-sm pb-1 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:transition-all after:duration-300 ${
+                  pathname === href
+                    ? "after:bg-current"
+                    : "after:w-0 after:bg-transparent hover:after:w-full hover:after:bg-current"
+                }`}
+              >
+                {name}
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <div className="flex gap-4">
@@ -121,46 +118,22 @@ const Navbar = () => {
         style={navbarStyle}
       >
         <ul className="md:flex items-center justify-between w-full font-normal hidden">
+             {[
+            { name: "New Arrival", href: "/" },
+            { name: "Tiles", href: "/" },
+            { name: "Sanitary Ware", href: "/" },
+            { name: "Bathroom Fittings", href: "/" },
+            { name: "Bathroom Furniture", href: "/" },
+            { name: "Bathtubs & Jacuzzi", href: "/" },
+            { name: "Kitchen Design", href: "/" },
+            
+          ].map(({ name, href }) => (
           <li>
             <Link href="" className="font-semibold text-sm">
-              New Arrival
+             {name}
             </Link>
           </li>
-          <li>
-            <Link href="" className="font-semibold text-sm">
-              Tiles
-            </Link>
-          </li>
-          <li>
-            <Link href="" className="font-semibold text-sm">
-              Sanitary Ware
-            </Link>
-          </li>
-          <li>
-            <Link href="" className="font-semibold text-sm">
-              Bathroom Fittings
-            </Link>
-          </li>
-          <li>
-            <Link href="" className="font-semibold text-sm">
-              Bathtubs & Jacuzzi
-            </Link>
-          </li>
-          <li>
-            <Link href="" className="font-semibold text-sm">
-              Bathtubs & Jacuzzi
-            </Link>
-          </li>
-          <li>
-            <Link href="" className="font-semibold text-sm">
-              Bathroom Furniture
-            </Link>
-          </li>
-          <li>
-            <Link href="" className="font-semibold text-sm">
-              Kitchen Solutions
-            </Link>
-          </li>
+          ))}
         </ul>
       </div>
 
