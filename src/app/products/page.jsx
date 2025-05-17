@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -7,14 +7,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-
+import MainLayout from "../../components/MainLayout";
 
 const Products = () => {
   return (
-    <>
-      <Navbar />
+    <MainLayout>
       <section className="w-full py-40 pt-80 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-25 px-5">
         <div className="w-full flex flex-col gap-8 items-center border-b border-[rgba(36,34,34,0.15)] pb-10 mb-14">
           <h1
@@ -291,9 +288,7 @@ const Products = () => {
           </SwiperSlide>
         </Swiper>
       </section>
-
-      <Footer />
-    </>
+    </MainLayout>
   );
 };
 

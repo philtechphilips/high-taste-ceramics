@@ -103,9 +103,15 @@ const Navbar = () => {
         </ul>
 
         <div className="flex gap-4">
-          <i className="ri-user-line text-xl"></i>
-          <i className="ri-poker-hearts-line text-xl hidden md:flex"></i>
-          <i className="ri-shopping-bag-line text-xl"></i>
+          <Link href="/sign-in">
+            <i className="ri-user-line text-xl"></i>
+          </Link>
+          <Link href="/wishlist">
+            <i className="ri-poker-hearts-line text-xl hidden md:flex"></i>
+          </Link>
+          <Link href="/cart">
+            <i className="ri-shopping-bag-line text-xl"></i>
+          </Link>
           <i
             className="ri-menu-line text-xl cursor-pointer md:hidden flex"
             onClick={toggleMenu}
@@ -118,7 +124,7 @@ const Navbar = () => {
         style={navbarStyle}
       >
         <ul className="md:flex items-center justify-between w-full font-normal hidden">
-             {[
+          {[
             { name: "New Arrival", href: "/" },
             { name: "Tiles", href: "/" },
             { name: "Sanitary Ware", href: "/" },
@@ -126,13 +132,12 @@ const Navbar = () => {
             { name: "Bathroom Furniture", href: "/" },
             { name: "Bathtubs & Jacuzzi", href: "/" },
             { name: "Kitchen Design", href: "/" },
-            
           ].map(({ name, href }) => (
-          <li>
-            <Link href="" className="font-semibold text-sm">
-             {name}
-            </Link>
-          </li>
+            <li>
+              <Link href="" className="font-semibold text-sm">
+                {name}
+              </Link>
+            </li>
           ))}
         </ul>
       </div>

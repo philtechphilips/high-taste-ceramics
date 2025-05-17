@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -7,13 +7,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import MainLayout from "../../components/MainLayout";
 
 const Blogs = () => {
   return (
-     <>
-      <Navbar />
+    <MainLayout>
       <section className="w-full py-40 pt-80 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-25 px-5">
         <div className="w-full flex flex-col gap-8 items-center border-b border-[rgba(36,34,34,0.15)] pb-10 mb-14">
           <h1
@@ -73,14 +71,15 @@ const Blogs = () => {
                 data-aos-anchor-placement="top-center"
               />
             </div>
-             <p className="relative mt-4 text-left  text-[#242222] text-sm">
+            <p className="relative mt-4 text-left  text-[#242222] text-sm">
               5 days ago
             </p>
             <p className="relative mt-1 text-left text-lg text-[#242222] font-[Publicko] ">
               Lorem ipsum dolor sit amet.
             </p>
-             <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia quidem veniam obcaecati, iste officiis?
+            <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia
+              quidem veniam obcaecati, iste officiis?
             </Link>
           </div>
 
@@ -93,14 +92,15 @@ const Blogs = () => {
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
-           <p className="relative mt-4 text-left  text-[#242222] text-sm">
+            <p className="relative mt-4 text-left  text-[#242222] text-sm">
               5 days ago
             </p>
             <p className="relative mt-1 text-left text-lg text-[#242222] font-[Publicko] ">
               Lorem ipsum dolor sit amet.
             </p>
-             <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia quidem veniam obcaecati, iste officiis?
+            <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia
+              quidem veniam obcaecati, iste officiis?
             </Link>
           </div>
 
@@ -119,8 +119,9 @@ const Blogs = () => {
             <p className="relative mt-1 text-left text-lg text-[#242222] font-[Publicko] ">
               Lorem ipsum dolor sit amet.
             </p>
-             <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia quidem veniam obcaecati, iste officiis?
+            <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia
+              quidem veniam obcaecati, iste officiis?
             </Link>
           </div>
 
@@ -139,8 +140,9 @@ const Blogs = () => {
             <p className="relative mt-1 text-left text-lg text-[#242222] font-[Publicko] ">
               Lorem ipsum dolor sit amet.
             </p>
-             <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia quidem veniam obcaecati, iste officiis?
+            <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia
+              quidem veniam obcaecati, iste officiis?
             </Link>
           </div>
 
@@ -159,8 +161,9 @@ const Blogs = () => {
             <p className="relative mt-1 text-left text-lg text-[#242222] font-[Publicko] ">
               Lorem ipsum dolor sit amet.
             </p>
-             <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia quidem veniam obcaecati, iste officiis?
+            <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia
+              quidem veniam obcaecati, iste officiis?
             </Link>
           </div>
 
@@ -179,8 +182,9 @@ const Blogs = () => {
             <p className="relative mt-1 text-left text-lg text-[#242222] font-[Publicko] ">
               Lorem ipsum dolor sit amet.
             </p>
-             <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia quidem veniam obcaecati, iste officiis?
+            <Link href="/" className="relative mt-1 text-lefttext-[#242222]">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum quia
+              quidem veniam obcaecati, iste officiis?
             </Link>
           </div>
         </div>
@@ -326,10 +330,8 @@ const Blogs = () => {
           </SwiperSlide>
         </Swiper>
       </section>
+    </MainLayout>
+  );
+};
 
-      <Footer />
-    </>
-  )
-}
-
-export default Blogs
+export default Blogs;

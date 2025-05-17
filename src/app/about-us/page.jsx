@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -7,14 +7,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-
+import MainLayout from "../../components/MainLayout";
 
 const About = () => {
   return (
-    <>
-      <Navbar />
+    <MainLayout>
       <section className="pt-80 pb-20 md:px-25 px-5 bg-[#EFEBE2]">
         <div className="flex md:flex-row flex-col md:gap-30 gap-20 justify-between items-center ">
           <div className="md:w-[45%]">
@@ -43,30 +40,29 @@ const About = () => {
           </div>
           <div className="md:w-1/2 w-full flex md:flex-row flex-col gap-16">
             <div className="md:w-1/2">
-            <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
-              Mission
-            </h1>
-            <p className="text-[#242222] mb-8 text-lg mt-4">
-                     To deliver lasting quality, innovative design, and exceptional
+              <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
+                Mission
+              </h1>
+              <p className="text-[#242222] mb-8 text-lg mt-4">
+                To deliver lasting quality, innovative design, and exceptional
                 service — helping our clients create spaces that reflect their
                 style and sophistication.
-            </p>
-          </div>
+              </p>
+            </div>
 
             <div className="md:w-1/2">
-            <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
-              Vission
-            </h1>
-            <p className="text-[#242222] mb-8 text-lg mt-4">
-               To be Africa's leading brand for luxury tiles and bathroom
+              <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
+                Vission
+              </h1>
+              <p className="text-[#242222] mb-8 text-lg mt-4">
+                To be Africa's leading brand for luxury tiles and bathroom
                 solutions, inspiring design excellence and setting the standard
                 for quality and elegance.
-            </p>
-          </div>
+              </p>
+            </div>
           </div>
         </div>
       </section>
-
 
       {/* <section className="py-20 md:px-25 px-5 bg-white">
         <div className="flex md:flex-row flex-col md:gap-50 gap-20 justify-between items-center ">
@@ -246,9 +242,7 @@ const About = () => {
           </SwiperSlide>
         </Swiper>
       </section>
-
-      <Footer />
-    </>
+    </MainLayout>
   );
 };
 
