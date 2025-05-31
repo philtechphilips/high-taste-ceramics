@@ -10,6 +10,40 @@ import { Scrollbar } from "swiper/modules";
 import MainLayout from "../../components/MainLayout";
 
 const Products = () => {
+  // Collection data array
+  const collections = [
+    {
+      image: "/NYC Lobby - Terrazzo Flooring.jpeg",
+      title: "Tiles",
+      count: 30,
+    },
+    {
+      image: "/WC-S.jpg",
+      title: "Sanitary Ware",
+      count: 18,
+    },
+    {
+      image: "/shower.jpg",
+      title: "Bathroom Fittings",
+      count: 22,
+    },
+    {
+      image: "/bathroom-fittings.jpg",
+      title: "Bathroom Furniture",
+      count: 15,
+    },
+    {
+      image: "/bathtub.jpg",
+      title: "Bathtubs & Jacuzzi",
+      count: 12,
+    },
+    {
+      image: "/kitchen.jpeg",
+      title: "Kitchen Designs",
+      count: 9,
+    },
+  ];
+
   return (
     <MainLayout>
       <section className="w-full py-40 pt-60 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-10 px-5">
@@ -54,97 +88,30 @@ const Products = () => {
           Our Collections
         </h1>
 
-        <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-12 md:gap-y-24 gap-y-12 mt-20">
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/NYC Lobby - Terrazzo Flooring.jpeg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                data-aos="fade-up"
-                data-aos-offset="200"
-                data-aos-duration="500"
-                data-aos-easing="ease-in-out"
-                data-aos-mirror="true"
-                data-aos-once="true"
-                data-aos-anchor-placement="top-center"
-              />
+        <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-6 md:gap-y-12 gap-y-12 mt-10">
+          {collections.map((col, idx) => (
+            <div key={col.title + idx} className="overflow-hidden group relative cursor-pointer">
+              <div className="relative h-100 overflow-hidden px-10 flex items-center justify-center">
+                <Image
+                  src={col.image}
+                  alt="image"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  data-aos="fade-up"
+                  data-aos-offset="200"
+                  data-aos-duration="500"
+                  data-aos-easing="ease-in-out"
+                  data-aos-mirror="true"
+                  data-aos-once="true"
+                  data-aos-anchor-placement="top-center"
+                />
+                <div className="flex flex-col w-[90%] absolute bottom-5 py-2 items-center justify-center bg-white/80">
+                  <p className="relative text-center font-semibold text-[#242222] ">{col.title}</p>
+                  <p className="relative text-center text-sm font-semibold text-[#424242] ">{col.count} products</p>
+                </div>
+              </div>
             </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Tiles
-            </p>
-          </div>
-
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/WC-S.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Sanitary Ware
-            </p>
-          </div>
-
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/shower.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Bathroom Fittings
-            </p>
-          </div>
-
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/bathroom-fittings.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Bathroom Furniture
-            </p>
-          </div>
-
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/bathtub.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Bathtubs & Jacuzzi
-            </p>
-          </div>
-
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/kitchen.jpeg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Kitchen Designs
-            </p>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -178,7 +145,7 @@ const Products = () => {
         >
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/NYC Lobby - Terrazzo Flooring.jpeg"
                   alt="image"
@@ -198,7 +165,7 @@ const Products = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/WC-S.jpg"
                   alt="image"
@@ -216,7 +183,7 @@ const Products = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/shower.jpg"
                   alt="image"
@@ -234,7 +201,7 @@ const Products = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/bathroom-fittings.jpg"
                   alt="image"
@@ -252,7 +219,7 @@ const Products = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/bathtub.jpg"
                   alt="image"
@@ -270,7 +237,7 @@ const Products = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/kitchen.jpeg"
                   alt="image"

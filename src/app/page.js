@@ -103,7 +103,7 @@ export default function Home() {
 
         <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-5 md:gap-y-10 gap-y-12 mt-20">
           <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
+            <div className="relative h-100 overflow-hidden">
               <Image
                 src="/NYC Lobby - Terrazzo Flooring.jpeg"
                 alt="image"
@@ -141,7 +141,7 @@ export default function Home() {
               data-aos-mirror="true"
               data-aos-once="true"
               data-aos-anchor-placement="top-center"
-              className="relative h-120 overflow-hidden"
+              className="relative h-100 overflow-hidden"
             >
               <Image
                 src="/WC-S.jpg"
@@ -173,7 +173,7 @@ export default function Home() {
               data-aos-mirror="true"
               data-aos-once="true"
               data-aos-anchor-placement="top-center"
-              className="relative h-120 overflow-hidden"
+              className="relative h-100 overflow-hidden"
             >
               <Image
                 src="/shower.jpg"
@@ -205,7 +205,7 @@ export default function Home() {
               data-aos-mirror="true"
               data-aos-once="true"
               data-aos-anchor-placement="top-center"
-              className="relative h-120 overflow-hidden"
+              className="relative h-100 overflow-hidden"
             >
               <Image
                 src="/bathroom-fittings.jpg"
@@ -237,7 +237,7 @@ export default function Home() {
               data-aos-mirror="true"
               data-aos-once="true"
               data-aos-anchor-placement="top-center"
-              className="relative h-120 overflow-hidden"
+              className="relative h-100 overflow-hidden"
             >
               <Image
                 src="/bathtub.jpg"
@@ -269,7 +269,7 @@ export default function Home() {
               data-aos-mirror="true"
               data-aos-once="true"
               data-aos-anchor-placement="top-center"
-              className="relative h-120 overflow-hidden"
+              className="relative h-100 overflow-hidden"
             >
               <Image
                 src="/kitchen.jpeg"
@@ -326,7 +326,7 @@ export default function Home() {
         >
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/NYC Lobby - Terrazzo Flooring.jpeg"
                   alt="image"
@@ -346,7 +346,7 @@ export default function Home() {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/WC-S.jpg"
                   alt="image"
@@ -364,7 +364,7 @@ export default function Home() {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/shower.jpg"
                   alt="image"
@@ -382,7 +382,7 @@ export default function Home() {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/bathroom-fittings.jpg"
                   alt="image"
@@ -400,7 +400,7 @@ export default function Home() {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/bathtub.jpg"
                   alt="image"
@@ -418,7 +418,7 @@ export default function Home() {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/kitchen.jpeg"
                   alt="image"

@@ -56,7 +56,7 @@ const Blogs = () => {
 
         <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-12 md:gap-y-24 gap-y-12 mt-20">
           <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
+            <div className="relative h-100 overflow-hidden">
               <Image
                 src="/NYC Lobby - Terrazzo Flooring.jpeg"
                 alt="image"
@@ -84,7 +84,7 @@ const Blogs = () => {
           </div>
 
           <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
+            <div className="relative h-100 overflow-hidden">
               <Image
                 src="/WC-S.jpg"
                 alt="image"
@@ -105,7 +105,7 @@ const Blogs = () => {
           </div>
 
           <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
+            <div className="relative h-100 overflow-hidden">
               <Image
                 src="/shower.jpg"
                 alt="image"
@@ -126,7 +126,7 @@ const Blogs = () => {
           </div>
 
           <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
+            <div className="relative h-100 overflow-hidden">
               <Image
                 src="/bathroom-fittings.jpg"
                 alt="image"
@@ -147,7 +147,7 @@ const Blogs = () => {
           </div>
 
           <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
+            <div className="relative h-100 overflow-hidden">
               <Image
                 src="/bathtub.jpg"
                 alt="image"
@@ -168,7 +168,7 @@ const Blogs = () => {
           </div>
 
           <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
+            <div className="relative h-100 overflow-hidden">
               <Image
                 src="/kitchen.jpeg"
                 alt="image"
@@ -220,7 +220,7 @@ const Blogs = () => {
         >
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/NYC Lobby - Terrazzo Flooring.jpeg"
                   alt="image"
@@ -240,7 +240,7 @@ const Blogs = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/WC-S.jpg"
                   alt="image"
@@ -258,7 +258,7 @@ const Blogs = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/shower.jpg"
                   alt="image"
@@ -276,7 +276,7 @@ const Blogs = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/bathroom-fittings.jpg"
                   alt="image"
@@ -294,7 +294,7 @@ const Blogs = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/bathtub.jpg"
                   alt="image"
@@ -312,7 +312,7 @@ const Blogs = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/kitchen.jpeg"
                   alt="image"

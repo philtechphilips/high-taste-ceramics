@@ -27,7 +27,7 @@ const Wishlist = () => {
 
         <div className="w-full grid md:grid-cols-4 grid-cols-1 gap-x-12 md:gap-y-24 gap-y-12 mt-20">
           <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
+            <div className="relative h-100 overflow-hidden">
               <Image
                 src="/NYC Lobby - Terrazzo Flooring.jpeg"
                 alt="image"
