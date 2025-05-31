@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import MainLayout from "../../components/MainLayout.js";
 import withAuth from "../../components/withAuth";

@@ -110,6 +110,10 @@ const SignIn = () => {
                 className="bg-[#242222] text-white py-3 px-6 rounded-xl hover:bg-[#3a3838] transition-all duration-200 text-base font-medium shadow-md"
                 disabled={loading}
               >
+                
+                {loading && (
+                  <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                )}
                 {loading ? "Signing In..." : "Sign In"}
               </button>
               <p className="text-center">
