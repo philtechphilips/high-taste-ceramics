@@ -12,30 +12,28 @@
   --swiper-scrollbar-size: 4px;
 }
 
-@font-face{
-    font-family: "News Gothic";
-    src:
-        url("/fonts/NewsGothic.woff")format("woff"),
-        url("/fonts/NewsGothic.woff2")format("woff2");
-    font-weight:normal;
-    font-style:normal;
-    font-display:swap;
+@font-face {
+  font-family: "News Gothic";
+  src:
+    url("/fonts/NewsGothic.woff") format("woff"),
+    url("/fonts/NewsGothic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
-@font-face{
-    font-family: "Publicko";
-    src:
-        url("/fonts/Publicko.woff")format("woff"),
-        url("/fonts/Publicko.woff2")format("woff2");
-    font-weight: 300 !important;
-    font-style:normal;
-    font-display:swap;
+@font-face {
+  font-family: "Publicko";
+  src:
+    url("/fonts/Publicko.woff") format("woff"),
+    url("/fonts/Publicko.woff2") format("woff2");
+  font-weight: 300 !important;
+  font-style: normal;
+  font-display: swap;
 }
-
-
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'News Gothic', Arial, Helvetica, sans-serif;
+  font-family: "News Gothic", Arial, Helvetica, sans-serif;
 }

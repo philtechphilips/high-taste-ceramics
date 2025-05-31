@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -7,17 +7,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-
+import MainLayout from "../../components/MainLayout";
 
 const About = () => {
   return (
-    <>
-      <Navbar />
-      <section className="pt-80 pb-20 md:px-25 px-5 bg-[#EFEBE2]">
+    <MainLayout>
+      <section className="pt-60 pb-20 md:px-10 px-5 bg-[#EFEBE2]">
         <div className="flex md:flex-row flex-col md:gap-30 gap-20 justify-between items-center ">
-          <div className="md:w-1/2">
+          <div className="md:w-[45%]">
             <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
               Who we are
             </h1>
@@ -41,32 +38,23 @@ const About = () => {
               Visit our showroom
             </Link>
           </div>
-          <div className="md:w-1/2 w-full md:h-120 h-100 relative">
-            <Image src="/bathtub.jpg" alt="bathtub" fill></Image>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#EFEBE2] py-20 px-5 md:px-24 text-[#242222]">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl font-[Publicko] font-[300] mb-6">
-            Our Mission & Vision
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12 text-left">
-            {/* Mission Card */}
-            <div className="p-8 rounded-2xl bg-[#EFEBE2]/20 backdrop-blur-md border border-white/30 shadow-sm transition hover:bg-[#EFEBE2]/30">
-              <h3 className="text-2xl font-semibold mb-4">Mission</h3>
-              <p className="text-base leading-relaxed">
+          <div className="md:w-1/2 w-full flex md:flex-row flex-col gap-16">
+            <div className="md:w-1/2">
+              <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
+                Mission
+              </h1>
+              <p className="text-[#242222] mb-8 text-lg mt-4">
                 To deliver lasting quality, innovative design, and exceptional
                 service — helping our clients create spaces that reflect their
                 style and sophistication.
               </p>
             </div>
 
-            {/* Vision Card */}
-            <div className="p-8 rounded-2xl bg-[#EFEBE2]/20 backdrop-blur-md border border-white/30 shadow-sm transition hover:bg-[#EFEBE2]/30">
-              <h3 className="text-2xl font-semibold mb-4">Vision</h3>
-              <p className="text-base leading-relaxed">
+            <div className="md:w-1/2">
+              <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
+                Vission
+              </h1>
+              <p className="text-[#242222] mb-8 text-lg mt-4">
                 To be Africa's leading brand for luxury tiles and bathroom
                 solutions, inspiring design excellence and setting the standard
                 for quality and elegance.
@@ -76,7 +64,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* <section className="py-20 md:px-25 px-5 bg-white">
+      {/* <section className="py-20 md:px-10 px-5 bg-white">
         <div className="flex md:flex-row flex-col md:gap-50 gap-20 justify-between items-center ">
           <div className="md:w-1/2">
             <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
@@ -114,7 +102,7 @@ const About = () => {
         </div>
       </section> */}
 
-      <section className="w-full bg-[#EFEBE2] md:px-25 px-4 py-20">
+      <section className="w-full bg-[#EFEBE2] md:px-10 px-4 py-20">
         <div className="flex items-center justify-between">
           <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
             Featured Products
@@ -254,9 +242,7 @@ const About = () => {
           </SwiperSlide>
         </Swiper>
       </section>
-
-      <Footer />
-    </>
+    </MainLayout>
   );
 };
 

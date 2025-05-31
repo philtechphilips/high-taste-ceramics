@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -7,15 +7,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-
+import MainLayout from "../../components/MainLayout";
 
 const Products = () => {
   return (
-    <>
-      <Navbar />
-      <section className="w-full py-40 pt-80 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-25 px-5">
+    <MainLayout>
+      <section className="w-full py-40 pt-60 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-10 px-5">
         <div className="w-full flex flex-col gap-8 items-center border-b border-[rgba(36,34,34,0.15)] pb-10 mb-14">
           <h1
             data-aos="fade-up"
@@ -52,7 +49,7 @@ const Products = () => {
         </div>
       </section>
 
-      <section className="w-full bg-white md:px-25 px-4 py-20">
+      <section className="w-full bg-white md:px-10 px-4 py-20">
         <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
           Our Collections
         </h1>
@@ -151,7 +148,7 @@ const Products = () => {
         </div>
       </section>
 
-      <section className="w-full bg-[#EFEBE2] md:px-25 px-4 py-20">
+      <section className="w-full bg-[#EFEBE2] md:px-10 px-4 py-20">
         <div className="flex items-center justify-between">
           <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
             Featured Products
@@ -291,9 +288,7 @@ const Products = () => {
           </SwiperSlide>
         </Swiper>
       </section>
-
-      <Footer />
-    </>
+    </MainLayout>
   );
 };
 

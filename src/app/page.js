@@ -9,9 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-
+import MainLayout from "../components/MainLayout";
 
 export default function Home() {
   useEffect(() => {
@@ -20,9 +18,8 @@ export default function Home() {
   }, []);
 
   return (
-    <>
-      <Navbar />
-      <section className="w-full py-40 pt-80 flex flex-col items-center justify-center bg-[#EFEBE2]">
+    <MainLayout>
+      <section className="w-full py-40 pt-60 flex flex-col items-center justify-center bg-[#EFEBE2]">
         <div className="md:w-160 w-full flex flex-col gap-8 items-center">
           <h4
             data-aos="fade-up"
@@ -99,12 +96,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-white md:px-25 px-4 py-20">
+      <section className="w-full bg-white md:px-10 px-4 py-20">
         <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
           Our Collections
         </h1>
 
-        <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-12 md:gap-y-24 gap-y-12 mt-20">
+        <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-5 md:gap-y-10 gap-y-12 mt-20">
           <div className="overflow-hidden group relative cursor-pointer">
             <div className="relative h-120 overflow-hidden">
               <Image
@@ -112,38 +109,40 @@ export default function Home() {
                 alt="image"
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
-                 data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
+                data-aos="fade-up"
+                data-aos-offset="200"
+                data-aos-duration="500"
+                data-aos-easing="ease-in-out"
+                data-aos-mirror="true"
+                data-aos-once="true"
+                data-aos-anchor-placement="top-center"
               />
             </div>
             <p
-             data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-           className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] "
+            >
               Tiles – Glossy, Matte, Wood-Effect, Carving
             </p>
           </div>
 
           <div className="overflow-hidden group relative cursor-pointer">
             <div
-             data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-             className="relative h-120 overflow-hidden">
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative h-120 overflow-hidden"
+            >
               <Image
                 src="/WC-S.jpg"
                 alt="image"
@@ -152,28 +151,30 @@ export default function Home() {
               />
             </div>
             <p
-             data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-             className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] "
+            >
               Sanitary Ware – WCs, Washbasins, Bidets
             </p>
           </div>
 
           <div className="overflow-hidden group relative cursor-pointer">
             <div
-             data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-             className="relative h-120 overflow-hidden">
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative h-120 overflow-hidden"
+            >
               <Image
                 src="/shower.jpg"
                 alt="image"
@@ -182,28 +183,30 @@ export default function Home() {
               />
             </div>
             <p
-             data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-             className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] "
+            >
               Bathroom Fittings – Faucets, Accessories, Shower Systems
             </p>
           </div>
 
           <div className="overflow-hidden group relative cursor-pointer">
             <div
-             data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-             className="relative h-120 overflow-hidden">
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative h-120 overflow-hidden"
+            >
               <Image
                 src="/bathroom-fittings.jpg"
                 alt="image"
@@ -212,28 +215,30 @@ export default function Home() {
               />
             </div>
             <p
-             data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-             className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] "
+            >
               Bathroom Furniture – Cabinets, Mirrors, Vanities
             </p>
           </div>
 
           <div className="overflow-hidden group relative cursor-pointer">
             <div
-             data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-             className="relative h-120 overflow-hidden">
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative h-120 overflow-hidden"
+            >
               <Image
                 src="/bathtub.jpg"
                 alt="image"
@@ -241,28 +246,31 @@ export default function Home() {
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
-            <p data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-             className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+            <p
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] "
+            >
               Bathtubs & Jacuzzi – Luxury soaking and spa solutions
             </p>
           </div>
 
           <div className="overflow-hidden group relative cursor-pointer">
             <div
-             data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-             className="relative h-120 overflow-hidden">
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative h-120 overflow-hidden"
+            >
               <Image
                 src="/kitchen.jpeg"
                 alt="image"
@@ -271,14 +279,15 @@ export default function Home() {
               />
             </div>
             <p
-             data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-             className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
+              data-aos="fade-up"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-mirror="true"
+              data-aos-once="true"
+              data-aos-anchor-placement="top-center"
+              className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] "
+            >
               Kitchen Designs – Fully fitted modular kitchens with elegant
               finishings
             </p>
@@ -286,7 +295,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-[#EFEBE2] md:px-25 px-4 py-20">
+      <section className="w-full bg-[#EFEBE2] md:px-10 px-4 py-20">
         <div className="flex items-center justify-between">
           <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
             Featured Products
@@ -303,12 +312,13 @@ export default function Home() {
         </div>
 
         <Swiper
-          spaceBetween={50}
+          spaceBetween={10}
           slidesPerView={1}
           breakpoints={{
             640: { slidesPerView: 1 },
             768: { slidesPerView: 2 },
-            1024: { slidesPerView: 4 },
+            1024: { slidesPerView: 3 },
+            1440: { slidesPerView: 4 },
           }}
           scrollbar={{ draggable: true }}
           modules={[Scrollbar]}
@@ -427,7 +437,7 @@ export default function Home() {
         </Swiper>
       </section>
 
-      <section className="relative w-full bg-black px-4 md:px-20 py-24 text-white overflow-hidden">
+      <section className="relative w-full bg-black px-4 md:px-10 py-24 text-white overflow-hidden">
         {/* Gradient overlays for smooth fade */}
         <div className="pointer-events-none absolute top-0 left-0 w-full h-20" />
         <div className="pointer-events-none absolute bottom-0 left-0 w-full h-20" />
@@ -437,9 +447,10 @@ export default function Home() {
         </h1>
 
         <div
-         data-aos="fade-right"
+          data-aos="fade-right"
           data-aos-duration="500"
-         className="grid sm:grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+          className="grid sm:grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto"
+        >
           {[
             "Premium European-Grade Products",
             "Trusted by Builders, Architects, & Homeowners",
@@ -459,7 +470,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-white py-24 px-4 md:px-20">
+      <section className="w-full bg-white py-24 px-4 md:px-10">
         <h2 className="text-3xl md:text-5xl font-[Publicko] font-light text-center mb-16 bg-gradient-to-r from-black via-gray-700 to-black text-transparent bg-clip-text">
           Client Testimonials
         </h2>
@@ -485,9 +496,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <Footer />
-    </>
+    </MainLayout>
   );
 }
-
