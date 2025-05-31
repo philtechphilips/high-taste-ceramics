@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from "../../services/auth.service";
 import toast, { Toaster } from 'react-hot-toast';
 import MainLayout from "../../components/MainLayout";
@@ -14,7 +14,19 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (hydrated && user) {
+      router.replace("/");
+    }
+  }, [user, router, hydrated]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +43,9 @@ const SignIn = () => {
       setLoading(false);
     }
   };
+
+  if (!hydrated) return null;
+  if (user) return null;
 
   return (
     <MainLayout>

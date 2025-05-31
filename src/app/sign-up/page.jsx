@@ -1,20 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signUp } from "../../services/auth.service";
 import { Toaster, toast } from 'react-hot-toast';
 import MainLayout from "../../components/MainLayout";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import withAuth from "../../components/withAuth";
+import useAuthStore from "../../store/authStore";
 
 const SignUp = () => {
+  const user = useAuthStore((state) => state.user);
   const router = useRouter();
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (hydrated && user) {
+      router.replace("/");
+    }
+  }, [user, router, hydrated]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +42,9 @@ const SignUp = () => {
       setLoading(false);
     }
   };
+
+  if (!hydrated) return null;
+  if (user) return null;
 
   return (
     <MainLayout>
@@ -82,7 +98,6 @@ const SignUp = () => {
                 <input
                   type="email"
                   id="email"
-             
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   className="w-full px-4 pt-5 pb-2 rounded-lg border border-[#ccc] bg-white text-[#242222] placeholder-transparent focus:outline-none focus:ring-1 focus:ring-[#242222]"

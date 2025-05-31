@@ -12,7 +12,7 @@ import MainLayout from "../../components/MainLayout";
 const Products = () => {
   return (
     <MainLayout>
-      <section className="w-full py-40 pt-80 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-10 px-5">
+      <section className="w-full py-40 pt-60 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-10 px-5">
         <div className="w-full flex flex-col gap-8 items-center border-b border-[rgba(36,34,34,0.15)] pb-10 mb-14">
           <h1
             data-aos="fade-up"

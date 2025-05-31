@@ -1,8 +1,28 @@
 import Link from "next/link";
 import MainLayout from "../../components/MainLayout";
 import withAuth from "../../components/withAuth";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import useAuthStore from "../../store/authStore";
 
-const SignIn = () => {
+const ResetPassword = () => {
+  const user = useAuthStore((state) => state.user);
+  const router = useRouter();
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (hydrated && user) {
+      router.replace("/");
+    }
+  }, [user, router, hydrated]);
+
+  if (!hydrated) return null;
+  if (user) return null;
+
   return (
     <MainLayout>
       <section className="w-full md:px-10 px-5 bg-[#F0F0F0] pt-60 pb-20">
@@ -68,4 +88,4 @@ const SignIn = () => {
   );
 };
 
-export default withAuth(SignIn, { requireAuth: false });
+export default withAuth(ResetPassword, { requireAuth: false });

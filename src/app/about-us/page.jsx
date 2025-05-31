@@ -12,7 +12,7 @@ import MainLayout from "../../components/MainLayout";
 const About = () => {
   return (
     <MainLayout>
-      <section className="pt-80 pb-20 md:px-10 px-5 bg-[#EFEBE2]">
+      <section className="pt-60 pb-20 md:px-10 px-5 bg-[#EFEBE2]">
         <div className="flex md:flex-row flex-col md:gap-30 gap-20 justify-between items-center ">
           <div className="md:w-[45%]">
             <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
