@@ -1,10 +1,11 @@
 import Image from "next/image";
 import MainLayout from "../../components/MainLayout.js";
+import withAuth from "../../components/withAuth";
 
 const Wishlist = () => {
   return (
     <MainLayout>
-      <section className="w-full md:px-25 px-5 bg-white pt-60 pb-20">
+      <section className="w-full md:px-10 px-5 bg-white pt-60 pb-20">
         <h1
           data-aos="fade-up"
           data-aos-offset="200"
@@ -61,4 +62,4 @@ const Wishlist = () => {
   );
 };
 
-export default Wishlist;
+export default withAuth(Wishlist, { requireAuth: true });

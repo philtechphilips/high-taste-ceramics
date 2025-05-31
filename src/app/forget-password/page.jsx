@@ -1,10 +1,11 @@
 import Link from "next/link";
 import MainLayout from "../../components/MainLayout";
+import withAuth from "../../components/withAuth";
 
 const SignIn = () => {
   return (
     <MainLayout>
-      <section className="w-full md:px-25 px-5 bg-[#F0F0F0] pt-60 pb-20">
+      <section className="w-full md:px-10 px-5 bg-[#F0F0F0] pt-60 pb-20">
         <div className="max-w-7xl mx-auto">
           <h1 className="md:text-5xl text-3xl !font-[300] text-[#242222] font-[Publicko] text-center leading-18">
             Forgot Password
@@ -52,4 +53,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default withAuth(SignIn, { requireAuth: false });

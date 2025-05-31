@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import MainLayout from "../../components/MainLayout";
+import withAuth from "../../components/withAuth";
 
 const Cart = () => {
   const [items, setItems] = useState([
@@ -36,7 +37,7 @@ const Cart = () => {
 
   return (
     <MainLayout>
-      <section className="w-full md:px-25 px-5 bg-white pt-60 pb-20">
+      <section className="w-full md:px-10 px-5 bg-white pt-60 pb-20">
         <div className="max-w-7xl mx-auto">
           <h1
             data-aos="fade-up"
@@ -166,4 +167,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default withAuth(Cart, { requireAuth: true });

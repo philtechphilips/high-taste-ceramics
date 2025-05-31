@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import "remixicon/fonts/remixicon.css";
+import useAuthStore from "../store/authStore";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,9 +16,21 @@ const Navbar = () => {
   });
   const [logoSrc, setLogoSrc] = useState("/logo.png");
   const pathname = usePathname();
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+  const logout = useAuthStore((state) => state.logout);
+  const router = useRouter();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleDropdown = () => setDropdownOpen((v) => !v);
+  const handleLogout = () => {
+    logout();
+    setDropdownOpen(false);
+    router.push("/sign-in");
   };
 
   useEffect(() => {
@@ -61,10 +75,19 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser && !user) {
+        setUser(JSON.parse(storedUser));
+      }
+    }
+  }, []);
+
   return (
     <>
       <div
-        className="w-full md:px-25 border-b !font-[500] py-1 px-4 flex items-center justify-end fixed top-0 z-50"
+        className="w-full md:px-10 border-b !font-[500] py-1 px-4 flex items-center justify-end fixed top-0 z-50"
         style={navbarStyle}
       >
         <div className="flex gap-1 items-center">
@@ -74,7 +97,7 @@ const Navbar = () => {
       </div>
 
       <div
-        className="w-full md:px-25 border-b py-4 px-4 flex items-center justify-between fixed top-[29px] z-50"
+        className="w-full md:px-10 border-b py-4 px-4 flex items-center justify-between fixed top-[29px] z-50"
         style={navbarStyle}
       >
         <Image alt="logo" width={80} height={80} src={logoSrc} />
@@ -102,10 +125,40 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <div className="flex gap-4">
-          <Link href="/sign-in">
-            <i className="ri-user-line text-xl"></i>
-          </Link>
+        <div className="flex items-center gap-4 relative">
+          {user ? (
+            <div className="relative">
+              <button
+                className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#242222] text-white text-xs font-semibold focus:outline-none"
+                onClick={handleDropdown}
+                aria-label="User menu"
+                type="button"
+              >
+                <span className="uppercase bg-[#3a3838] rounded-full w-8 h-8 flex items-center  justify-center">
+                  {user.firstName?.[0] || ""}
+                  {user.lastName?.[0] || ""}
+                </span>
+                <i className="ri-arrow-down-s-line sm"></i>
+              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border z-50">
+                  <Link href="/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100">
+                    <i className="ri-user-3-line"></i> Profile
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 border-t"
+                  >
+                    <i className="ri-logout-box-r-line"></i> Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link href="/sign-in">
+              <i className="ri-user-line text-xl"></i>
+            </Link>
+          )}
           <Link href="/wishlist">
             <i className="ri-poker-hearts-line text-xl hidden md:flex"></i>
           </Link>
@@ -118,9 +171,9 @@ const Navbar = () => {
           ></i>
         </div>
       </div>
-
+{/* 
       <div
-        className="w-full md:px-25 border-b py-4 px-4 md:flex hidden items-center justify-between fixed top-[113px] z-50"
+        className="w-full md:px-10 border-b py-4 px-4 md:flex hidden items-center justify-between fixed top-[113px] z-50"
         style={navbarStyle}
       >
         <ul className="md:flex items-center justify-between w-full font-normal hidden">
@@ -140,21 +193,21 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
 
       <div
         className={`bg-white fixed top-0 h-screen z-100 w-full transform transition-transform duration-300 ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="w-full md:px-25 bg-transparent border-b border-[rgba(36,34,34,0.15)] text-[#242222] !font-[500] py-1 px-4 flex items-center justify-end fixed top-0 z-50">
+        <div className="w-full md:px-10 bg-transparent border-b border-[rgba(36,34,34,0.15)] text-[#242222] !font-[500] py-1 px-4 flex items-center justify-end fixed top-0 z-50">
           <div className="flex gap-1 items-center">
             <i className="ri-phone-line text-sm"></i>
             <p className="text-sm">+14 321 456 789</p>
           </div>
         </div>
 
-        <div className="w-full md:px-25 bg-transparent border-b border-[rgba(36,34,34,0.15)] text-[#242222] !py-4 mt-6 px-4 flex items-center justify-between">
+        <div className="w-full md:px-10 bg-transparent border-b border-[rgba(36,34,34,0.15)] text-[#242222] !py-4 mt-6 px-4 flex items-center justify-between">
           <Image alt="logo" width={80} height={80} src={logoSrc} />
           <div className="flex gap-4">
             <i className="ri-user-line text-xl"></i>

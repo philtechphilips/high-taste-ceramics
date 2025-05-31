@@ -19,7 +19,7 @@ export default function Home() {
 
   return (
     <MainLayout>
-      <section className="w-full py-40 pt-80 flex flex-col items-center justify-center bg-[#EFEBE2]">
+      <section className="w-full py-40 pt-60 flex flex-col items-center justify-center bg-[#EFEBE2]">
         <div className="md:w-160 w-full flex flex-col gap-8 items-center">
           <h4
             data-aos="fade-up"
@@ -96,12 +96,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-white md:px-25 px-4 py-20">
+      <section className="w-full bg-white md:px-10 px-4 py-20">
         <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
           Our Collections
         </h1>
 
-        <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-12 md:gap-y-24 gap-y-12 mt-20">
+        <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-5 md:gap-y-10 gap-y-12 mt-20">
           <div className="overflow-hidden group relative cursor-pointer">
             <div className="relative h-120 overflow-hidden">
               <Image
@@ -295,7 +295,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-[#EFEBE2] md:px-25 px-4 py-20">
+      <section className="w-full bg-[#EFEBE2] md:px-10 px-4 py-20">
         <div className="flex items-center justify-between">
           <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
             Featured Products
@@ -312,12 +312,13 @@ export default function Home() {
         </div>
 
         <Swiper
-          spaceBetween={50}
+          spaceBetween={10}
           slidesPerView={1}
           breakpoints={{
             640: { slidesPerView: 1 },
             768: { slidesPerView: 2 },
-            1024: { slidesPerView: 4 },
+            1024: { slidesPerView: 3 },
+            1440: { slidesPerView: 4 },
           }}
           scrollbar={{ draggable: true }}
           modules={[Scrollbar]}
@@ -436,7 +437,7 @@ export default function Home() {
         </Swiper>
       </section>
 
-      <section className="relative w-full bg-black px-4 md:px-20 py-24 text-white overflow-hidden">
+      <section className="relative w-full bg-black px-4 md:px-10 py-24 text-white overflow-hidden">
         {/* Gradient overlays for smooth fade */}
         <div className="pointer-events-none absolute top-0 left-0 w-full h-20" />
         <div className="pointer-events-none absolute bottom-0 left-0 w-full h-20" />
@@ -469,7 +470,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-white py-24 px-4 md:px-20">
+      <section className="w-full bg-white py-24 px-4 md:px-10">
         <h2 className="text-3xl md:text-5xl font-[Publicko] font-light text-center mb-16 bg-gradient-to-r from-black via-gray-700 to-black text-transparent bg-clip-text">
           Client Testimonials
         </h2>

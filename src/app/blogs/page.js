@@ -12,7 +12,7 @@ import MainLayout from "../../components/MainLayout";
 const Blogs = () => {
   return (
     <MainLayout>
-      <section className="w-full py-40 pt-80 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-25 px-5">
+      <section className="w-full py-40 pt-80 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-10 px-5">
         <div className="w-full flex flex-col gap-8 items-center border-b border-[rgba(36,34,34,0.15)] pb-10 mb-14">
           <h1
             data-aos="fade-up"
@@ -49,7 +49,7 @@ const Blogs = () => {
         </div>
       </section>
 
-      <section className="w-full bg-white md:px-25 px-4 py-20">
+      <section className="w-full bg-white md:px-10 px-4 py-20">
         <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
           Latest
         </h1>
@@ -190,7 +190,7 @@ const Blogs = () => {
         </div>
       </section>
 
-      <section className="w-full bg-[#EFEBE2] md:px-25 px-4 py-20">
+      <section className="w-full bg-[#EFEBE2] md:px-10 px-4 py-20">
         <div className="flex items-center justify-between">
           <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
             Featured Products
