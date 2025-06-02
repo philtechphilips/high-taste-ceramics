@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchProductCategories } from "../services/product.service";
 import useAuthStore from "../store/authStore";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 const Collection = () => {
   const [categories, setCategories] = useState([]);
@@ -50,7 +51,8 @@ const Collection = () => {
           ))
         ) : categories.length > 0 ? (
           categories.map((cat, idx) => (
-            <div
+            <Link
+              href={`/products/${cat?.id}`}
               key={cat._id || idx}
               className="overflow-hidden group relative cursor-pointer"
             >
@@ -77,7 +79,7 @@ const Collection = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         ) : (
           <p className="col-span-3 text-center text-gray-500">

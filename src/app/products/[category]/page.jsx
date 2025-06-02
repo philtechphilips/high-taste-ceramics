@@ -4,47 +4,63 @@ import MainLayout from "../../../components/MainLayout";
 import useAuthStore from "../../../store/authStore";
 import useCartStore from "../../../store/cartStore";
 import useWishlistStore from "../../../store/wishlistStore";
-import { fetchProductCategories } from "../../../services/product.service";
+import { fetchProductsByCategoryId } from "../../../services/product.service";
 import Image from "next/image";
+import { useRouter, useSearchParams, useParams } from "next/navigation";
+import Link from "next/link";
 
 const ITEMS_PER_PAGE = 24; // Adjust as needed
 
-const MOCK_CATEGORIES = Array.from({ length: 23 }).map((_, idx) => ({
-  _id: `mock-${idx + 1}`,
-  name: `Category ${idx + 1}`,
-  productName: `Product ${idx + 1}`,
-  image: "/tiles.png",
-}));
-
 const Shop = () => {
-  const [categories, setCategories] = useState([]);
+  const params = useParams();
+  const categoryId = params?.category;
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true); // Set loading to true initially
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = ITEMS_PER_PAGE;
+  // const itemsPerPage = ITEMS_PER_PAGE;
   const user = useAuthStore((state) => state.user);
   const addToCart = useCartStore((state) => state.addToCart);
   const addToWishlist = useWishlistStore((state) => state.addToWishlist);
 
   // Calculate pagination
   // Use mock data for pagination only
-  const totalPages = Math.ceil(MOCK_CATEGORIES.length / itemsPerPage);
-  const paginatedCategories = MOCK_CATEGORIES.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
+  // const totalPages = Math.ceil(MOCK_CATEGORIES.length / itemsPerPage);
+  // const paginatedCategories = MOCK_CATEGORIES.slice(
+  //   (currentPage - 1) * itemsPerPage,
+  //   currentPage * itemsPerPage,
+  // );
 
+  console.log(products, "products");
   useEffect(() => {
-    // Fetch real categories for other logic if needed
-    setCategories(MOCK_CATEGORIES); // You can still fetch real data here if needed
-    setLoading(false);
-  }, []);
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        // Pass categoryId to your fetch function if needed
+        const response = await fetchProductsByCategoryId(categoryId);
+        console.log("Fetched products:", response);
+        setProducts(response?.payload || []);
+      } catch (error) {
+        setProducts([]);
+        console.error("Failed to fetch categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, [categoryId]);
   return (
     <MainLayout>
       <section className="w-full py-40 pt-40 flex flex-col items-center justify-center md:px-10 px-5 bg-[#f0f0f0]">
         <div className="w-full flex flex-col gap-8 pb-10 mb-14">
-          <p>Home / Products / Tiles</p>
+          <p>
+            <Link href="/">Home</Link> / <Link href="/products">Products</Link>{" "}
+            /{" "}
+            <span className="text-[#6d6d6d]">
+              {products.length > 0 ? products[0]?.category?.name : ""}
+            </span>
+          </p>
           <h1 className="text-4xl font-semibold font-[Publicko] text-[#242222]">
-            Tiles
+            {products.length > 0 ? products[0]?.category?.name : ""}
           </h1>
         </div>
 
@@ -55,7 +71,7 @@ const Shop = () => {
                   key={idx}
                   className="overflow-hidden group relative cursor-pointer animate-pulse"
                 >
-                  <div className="relative h-100 overflow-hidden px-10 flex items-center justify-center bg-gray-200 rounded-md min-h-[220px]">
+                  <div className="relative h-80 overflow-hidden px-10 flex items-center justify-center bg-gray-200 rounded-md min-h-[220px]">
                     <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-skeleton" />
                   </div>
                   <div className="flex flex-col w-[90%] absolute bottom-5 py-2 items-center justify-center bg-white/80">
@@ -64,16 +80,16 @@ const Shop = () => {
                   </div>
                 </div>
               ))
-            : MOCK_CATEGORIES.length > 0
-              ? paginatedCategories.map((cat, idx) => (
+            : products.length > 0
+              ? products.map((cat, idx) => (
                   <div
                     key={cat._id || idx}
                     className="overflow-hidden group relative cursor-pointer rounded"
                   >
                     <div className="relative h-80 overflow-hidden px-10 flex items-center justify-center group">
                       <Image
-                        src={cat?.image || "/tiles.png"}
-                        alt={cat?.name || "Category"}
+                        src={cat?.image}
+                        alt={cat?.name}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                         data-aos="fade-up"
@@ -111,10 +127,10 @@ const Shop = () => {
                     </div>
                     <div className="py-2">
                       <p className="relative text-xs text-[#8d8d8d]">
-                        {cat?.name || "Cat Name"}
+                        {cat?.category?.name}
                       </p>
                       <p className="relative font-semibold text-[#242222]">
-                        {cat?.productName || "Product Name"}
+                        {cat?.name}
                       </p>
                       <button
                         type="button"
@@ -133,9 +149,9 @@ const Shop = () => {
                 )}
         </div>
         {/* Pagination Controls */}
-        {!loading && totalPages > 1 && (
+        {/* {!loading && totalPages > 1 && (
           <div className="flex items-center justify-start gap-2 mt-8 w-full">
-            {/* Previous Arrow */}
+     
             {currentPage > 1 && (
               <button
                 className="px-3 py-2 rounded font-medium text-sm transition-colors bg-white text-[#242222] hover:bg-[#ececec] border border-[#ececec]"
@@ -145,7 +161,7 @@ const Shop = () => {
                 <i className="ri-arrow-left-s-line text-xl"></i>
               </button>
             )}
-            {/* Page Numbers with ellipsis */}
+ 
             {(() => {
               const pageButtons = [];
               const maxVisible = 5;
@@ -196,7 +212,7 @@ const Shop = () => {
                 ),
               );
             })()}
-            {/* Next Arrow */}
+        
             {currentPage < totalPages && (
               <button
                 className="px-3 py-2 rounded font-medium text-sm transition-colors bg-white text-[#242222] hover:bg-[#ececec] border border-[#ececec]"
@@ -209,7 +225,7 @@ const Shop = () => {
               </button>
             )}
           </div>
-        )}
+        )} */}
       </section>
     </MainLayout>
   );

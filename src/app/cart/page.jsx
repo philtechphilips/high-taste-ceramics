@@ -42,7 +42,7 @@ const Cart = () => {
 
           <p className="text-lg mt-5 text-[#242222]">
             Not quite ready to check out?{" "}
-            <Link className="underline hover:text-[#5a5a5a]" href="/">
+            <Link className="underline hover:text-[#5a5a5a]" href="/products">
               Continue Shopping
             </Link>
           </p>
@@ -68,25 +68,25 @@ const Cart = () => {
 
                 {cart.map((item) => (
                   <div
-                    key={item._id || item.id}
+                    key={item?.id}
                     className="grid grid-cols-1 md:grid-cols-12 gap-6 py-6 border-b border-[#242222]/10 hover:bg-[#fafafa] transition-colors duration-200"
                   >
                     {/* Product Info */}
                     <div className="col-span-6 flex items-start gap-4">
                       <div className="relative w-24 h-24 overflow-hidden">
                         <Image
-                          src={item.image}
-                          alt={item.name}
+                          src={item?.image}
+                          alt={item?.name}
                           fill
                           className="object-cover"
                         />
                       </div>
                       <div className="flex-1">
                         <h3 className="text-lg font-medium text-[#242222]">
-                          {item.name}
+                          {item?.name}
                         </h3>
                         <p className="text-sm text-[#5a5a5a] mt-1">
-                          Material sample
+                          {item?.category?.name}
                         </p>
                       </div>
                     </div>
@@ -147,7 +147,7 @@ const Cart = () => {
                   Your cart is empty
                 </p>
                 <Link
-                  href="/"
+                  href="/products"
                   className="inline-block bg-[#242222] text-white px-6 py-2 rounded-full hover:bg-[#3a3a3a] transition-colors"
                 >
                   Continue Shopping

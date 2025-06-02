@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import MainLayout from "../../components/MainLayout.js";
-import withAuth from "../../components/withAuth";
 import useWishlistStore from "../../store/wishlistStore";
 
 const Wishlist = () => {
