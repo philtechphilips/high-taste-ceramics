@@ -2,37 +2,25 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect } from "react";
 import MainLayout from "../../components/MainLayout";
 import withAuth from "../../components/withAuth";
+import useCartStore from "../../store/cartStore";
 
 const Cart = () => {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      name: "Terrazzo Flooring - NYC Lobby Collection",
-      image: "/NYC Lobby - Terrazzo Flooring.jpeg",
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: "Marble Tiles - Classic White",
-      image: "/NYC Lobby - Terrazzo Flooring.jpeg",
-      quantity: 2,
-    },
-  ]);
+  const { cart, setCart } = useCartStore();
 
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
-    setItems(
-      items.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item,
-      ),
+    const updatedCart = cart.map((item) =>
+      (item._id || item.id) === id ? { ...item, count: newQuantity } : item,
     );
+    setCart(updatedCart);
   };
 
   const removeItem = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+    const updatedCart = cart.filter((item) => (item._id || item.id) !== id);
+    setCart(updatedCart);
   };
 
   return (
@@ -63,7 +51,7 @@ const Cart = () => {
 
           {/* Cart Items */}
           <div className="w-full flex flex-col gap-8">
-            {items.length > 0 ? (
+            {cart.length > 0 ? (
               <>
                 {/* Desktop Headers (hidden on mobile) */}
                 <div className="hidden md:grid grid-cols-12 gap-4 pb-4 border-b border-[#242222]/10">
@@ -78,9 +66,9 @@ const Cart = () => {
                   </div>
                 </div>
 
-                {items.map((item) => (
+                {cart.map((item) => (
                   <div
-                    key={item.id}
+                    key={item._id || item.id}
                     className="grid grid-cols-1 md:grid-cols-12 gap-6 py-6 border-b border-[#242222]/10 hover:bg-[#fafafa] transition-colors duration-200"
                   >
                     {/* Product Info */}
@@ -108,18 +96,24 @@ const Cart = () => {
                       <div className="flex items-center border border-[#242222]/20 rounded-full">
                         <button
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
+                            updateQuantity(
+                              item._id || item.id,
+                              (item.count || 1) - 1,
+                            )
                           }
                           className="px-3 py-1 text-lg hover:bg-[#f0f0f0] transition-colors"
                         >
                           -
                         </button>
                         <span className="px-4 py-1 text-center min-w-[40px]">
-                          {item.quantity}
+                          {item.count || 1}
                         </span>
                         <button
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
+                            updateQuantity(
+                              item._id || item.id,
+                              (item.count || 1) + 1,
+                            )
                           }
                           className="px-3 py-1 text-lg hover:bg-[#f0f0f0] transition-colors"
                         >
@@ -131,7 +125,7 @@ const Cart = () => {
                     {/* Remove Button */}
                     <div className="col-span-3 flex items-center justify-end">
                       <button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item._id || item.id)}
                         className="text-sm underline hover:text-[#5a5a5a] transition-colors"
                       >
                         Remove
@@ -167,4 +161,4 @@ const Cart = () => {
   );
 };
 
-export default withAuth(Cart, { requireAuth: true });
+export default Cart;

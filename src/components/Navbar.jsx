@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import "remixicon/fonts/remixicon.css";
 import useAuthStore from "../store/authStore";
 import { useRouter } from "next/navigation";
+import useCartStore from "../store/cartStore";
+import useWishlistStore from "../store/wishlistStore";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,6 +23,8 @@ const Navbar = () => {
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const cart = useCartStore((state) => state.cart);
+  const wishlist = useWishlistStore((state) => state.wishlist);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -100,7 +104,15 @@ const Navbar = () => {
         className="w-full md:px-10 border-b py-4 px-4 flex items-center justify-between fixed top-[29px] z-50"
         style={navbarStyle}
       >
-        <Image alt="logo" width={80} height={80} src={logoSrc} />
+        <Link href="/">
+          <Image
+            alt="logo"
+            width={80}
+            height={80}
+            src={logoSrc}
+            className="cursor-pointer"
+          />
+        </Link>
 
         <ul className="md:flex items-center gap-12 font-normal hidden">
           {[
@@ -162,11 +174,21 @@ const Navbar = () => {
               <i className="ri-user-line text-xl"></i>
             </Link>
           )}
-          <Link href="/wishlist">
+          <Link href="/wishlist" className="relative">
             <i className="ri-poker-hearts-line text-xl hidden md:flex"></i>
+            {wishlist.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+                {wishlist.length}
+              </span>
+            )}
           </Link>
-          <Link href="/cart">
+          <Link href="/cart" className="relative">
             <i className="ri-shopping-bag-line text-xl"></i>
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+                {cart.length}
+              </span>
+            )}
           </Link>
           <i
             className="ri-menu-line text-xl cursor-pointer md:hidden flex"
@@ -211,10 +233,33 @@ const Navbar = () => {
         </div>
 
         <div className="w-full md:px-10 bg-transparent border-b border-[rgba(36,34,34,0.15)] text-[#242222] !py-4 mt-6 px-4 flex items-center justify-between">
-          <Image alt="logo" width={80} height={80} src={logoSrc} />
+          <Link href="/">
+            <Image
+              alt="logo"
+              width={80}
+              height={80}
+              src={logoSrc}
+              className="cursor-pointer"
+            />
+          </Link>
           <div className="flex gap-4">
             <i className="ri-user-line text-xl"></i>
-            <i className="ri-shopping-bag-line text-xl"></i>
+            <div className="relative">
+              <i className="ri-poker-hearts-line text-xl"></i>
+              {wishlist.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+                  {wishlist.length}
+                </span>
+              )}
+            </div>
+            <div className="relative">
+              <i className="ri-shopping-bag-line text-xl"></i>
+              {cart.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+                  {cart.length}
+                </span>
+              )}
+            </div>
             <i
               className="ri-close-line text-xl cursor-pointer"
               onClick={toggleMenu}
