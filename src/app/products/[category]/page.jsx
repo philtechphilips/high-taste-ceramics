@@ -40,7 +40,7 @@ const Shop = () => {
   }, []);
   return (
     <MainLayout>
-      <div className="w-full py-40 pt-40 flex flex-col items-center justify-center md:px-10 px-5 bg-[#f0f0f0]">
+      <section className="w-full py-40 pt-40 flex flex-col items-center justify-center md:px-10 px-5 bg-[#f0f0f0]">
         <div className="w-full flex flex-col gap-8 pb-10 mb-14">
           <p>Home / Products / Tiles</p>
           <h1 className="text-4xl font-semibold font-[Publicko] text-[#242222]">
@@ -210,7 +210,7 @@ const Shop = () => {
             )}
           </div>
         )}
-      </div>
+      </section>
     </MainLayout>
   );
 };

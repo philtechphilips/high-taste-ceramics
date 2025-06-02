@@ -11,22 +11,20 @@ const Collection = () => {
 
   useEffect(() => {
     const getCategories = async () => {
-      if (user && user.token) {
-        setLoading(true);
-        try {
-          const data = await fetchProductCategories(user.token);
-          console.log("Fetched categories:", data);
-          setCategories(data?.payload);
-        } catch (error) {
-          setCategories([]);
-          toast.error(error?.message || "Failed to fetch categories");
-        } finally {
-          setLoading(false);
-        }
+      setLoading(true);
+      try {
+        const data = await fetchProductCategories();
+        console.log("Fetched categories:", data);
+        setCategories(data?.payload);
+      } catch (error) {
+        setCategories([]);
+        toast.error(error?.message || "Failed to fetch categories");
+      } finally {
+        setLoading(false);
       }
     };
     getCategories();
-  }, [user]);
+  }, []);
 
   return (
     <section className="w-full bg-white md:px-10 px-4 py-20">
