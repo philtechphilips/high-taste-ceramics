@@ -2,37 +2,25 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect } from "react";
 import MainLayout from "../../components/MainLayout";
 import withAuth from "../../components/withAuth";
+import useCartStore from "../../store/cartStore";
 
 const Cart = () => {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      name: "Terrazzo Flooring - NYC Lobby Collection",
-      image: "/NYC Lobby - Terrazzo Flooring.jpeg",
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: "Marble Tiles - Classic White",
-      image: "/NYC Lobby - Terrazzo Flooring.jpeg",
-      quantity: 2,
-    },
-  ]);
+  const { cart, setCart } = useCartStore();
 
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
-    setItems(
-      items.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item,
-      ),
+    const updatedCart = cart.map((item) =>
+      (item._id || item.id) === id ? { ...item, count: newQuantity } : item,
     );
+    setCart(updatedCart);
   };
 
   const removeItem = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+    const updatedCart = cart.filter((item) => (item._id || item.id) !== id);
+    setCart(updatedCart);
   };
 
   return (
@@ -54,7 +42,7 @@ const Cart = () => {
 
           <p className="text-lg mt-5 text-[#242222]">
             Not quite ready to check out?{" "}
-            <Link className="underline hover:text-[#5a5a5a]" href="/">
+            <Link className="underline hover:text-[#5a5a5a]" href="/products">
               Continue Shopping
             </Link>
           </p>
@@ -63,7 +51,7 @@ const Cart = () => {
 
           {/* Cart Items */}
           <div className="w-full flex flex-col gap-8">
-            {items.length > 0 ? (
+            {cart.length > 0 ? (
               <>
                 {/* Desktop Headers (hidden on mobile) */}
                 <div className="hidden md:grid grid-cols-12 gap-4 pb-4 border-b border-[#242222]/10">
@@ -78,27 +66,27 @@ const Cart = () => {
                   </div>
                 </div>
 
-                {items.map((item) => (
+                {cart.map((item) => (
                   <div
-                    key={item.id}
+                    key={item?.id}
                     className="grid grid-cols-1 md:grid-cols-12 gap-6 py-6 border-b border-[#242222]/10 hover:bg-[#fafafa] transition-colors duration-200"
                   >
                     {/* Product Info */}
                     <div className="col-span-6 flex items-start gap-4">
                       <div className="relative w-24 h-24 overflow-hidden">
                         <Image
-                          src={item.image}
-                          alt={item.name}
+                          src={item?.image}
+                          alt={item?.name}
                           fill
                           className="object-cover"
                         />
                       </div>
                       <div className="flex-1">
                         <h3 className="text-lg font-medium text-[#242222]">
-                          {item.name}
+                          {item?.name}
                         </h3>
                         <p className="text-sm text-[#5a5a5a] mt-1">
-                          Material sample
+                          {item?.category?.name}
                         </p>
                       </div>
                     </div>
@@ -108,18 +96,24 @@ const Cart = () => {
                       <div className="flex items-center border border-[#242222]/20 rounded-full">
                         <button
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
+                            updateQuantity(
+                              item._id || item.id,
+                              (item.count || 1) - 1,
+                            )
                           }
                           className="px-3 py-1 text-lg hover:bg-[#f0f0f0] transition-colors"
                         >
                           -
                         </button>
                         <span className="px-4 py-1 text-center min-w-[40px]">
-                          {item.quantity}
+                          {item.count || 1}
                         </span>
                         <button
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
+                            updateQuantity(
+                              item._id || item.id,
+                              (item.count || 1) + 1,
+                            )
                           }
                           className="px-3 py-1 text-lg hover:bg-[#f0f0f0] transition-colors"
                         >
@@ -131,7 +125,7 @@ const Cart = () => {
                     {/* Remove Button */}
                     <div className="col-span-3 flex items-center justify-end">
                       <button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item._id || item.id)}
                         className="text-sm underline hover:text-[#5a5a5a] transition-colors"
                       >
                         Remove
@@ -142,9 +136,12 @@ const Cart = () => {
 
                 {/* Submit Quote Button */}
                 <div className="flex justify-end mt-12">
-                  <button className="bg-[#242222] text-white px-8 py-3 text-lg hover:bg-[#3a3a3a] transition-colors duration-200 rounded-full">
+                  <Link
+                    href="/checkout"
+                    className="bg-[#242222] text-white px-8 py-3 text-lg hover:bg-[#3a3a3a] transition-colors duration-200 rounded-full"
+                  >
                     Submit Quote Request
-                  </button>
+                  </Link>
                 </div>
               </>
             ) : (
@@ -153,7 +150,7 @@ const Cart = () => {
                   Your cart is empty
                 </p>
                 <Link
-                  href="/"
+                  href="/products"
                   className="inline-block bg-[#242222] text-white px-6 py-2 rounded-full hover:bg-[#3a3a3a] transition-colors"
                 >
                   Continue Shopping
@@ -167,4 +164,4 @@ const Cart = () => {
   );
 };
 
-export default withAuth(Cart, { requireAuth: true });
+export default Cart;

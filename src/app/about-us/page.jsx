@@ -132,7 +132,7 @@ const About = () => {
         >
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/NYC Lobby - Terrazzo Flooring.jpeg"
                   alt="image"
@@ -152,7 +152,7 @@ const About = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/WC-S.jpg"
                   alt="image"
@@ -170,7 +170,7 @@ const About = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/shower.jpg"
                   alt="image"
@@ -188,7 +188,7 @@ const About = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/bathroom-fittings.jpg"
                   alt="image"
@@ -206,7 +206,7 @@ const About = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/bathtub.jpg"
                   alt="image"
@@ -224,7 +224,7 @@ const About = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/kitchen.jpeg"
                   alt="image"

@@ -15,7 +15,7 @@ axiosInstance.interceptors.response.use(
       // toast.error("Session expired. Please sign in again.");
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosInstance;

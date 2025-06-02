@@ -2,14 +2,40 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
 import MainLayout from "../../components/MainLayout";
+import { fetchProductCategories } from "../../services/product.service";
+import useAuthStore from "../../store/authStore";
+import toast from "react-hot-toast";
+import Collection from "../../components/Collection";
 
 const Products = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const user = useAuthStore((state) => state.user);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      if (user && user.token) {
+        setLoading(true);
+        try {
+          const data = await fetchProductCategories(user.token);
+          setCategories(data?.payload || []);
+        } catch (error) {
+          setCategories([]);
+          toast.error(error?.message || "Failed to fetch categories");
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    getCategories();
+  }, [user]);
+
   return (
     <MainLayout>
       <section className="w-full py-40 pt-60 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-10 px-5">
@@ -49,104 +75,7 @@ const Products = () => {
         </div>
       </section>
 
-      <section className="w-full bg-white md:px-10 px-4 py-20">
-        <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
-          Our Collections
-        </h1>
-
-        <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-12 md:gap-y-24 gap-y-12 mt-20">
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/NYC Lobby - Terrazzo Flooring.jpeg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                data-aos="fade-up"
-                data-aos-offset="200"
-                data-aos-duration="500"
-                data-aos-easing="ease-in-out"
-                data-aos-mirror="true"
-                data-aos-once="true"
-                data-aos-anchor-placement="top-center"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Tiles
-            </p>
-          </div>
-
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/WC-S.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Sanitary Ware
-            </p>
-          </div>
-
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/shower.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Bathroom Fittings
-            </p>
-          </div>
-
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/bathroom-fittings.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Bathroom Furniture
-            </p>
-          </div>
-
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/bathtub.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Bathtubs & Jacuzzi
-            </p>
-          </div>
-
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-120 overflow-hidden">
-              <Image
-                src="/kitchen.jpeg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-4 text-left text-2xl text-[#242222] font-[Publicko] ">
-              Kitchen Designs
-            </p>
-          </div>
-        </div>
-      </section>
+      <Collection />
 
       <section className="w-full bg-[#EFEBE2] md:px-10 px-4 py-20">
         <div className="flex items-center justify-between">
@@ -178,7 +107,7 @@ const Products = () => {
         >
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/NYC Lobby - Terrazzo Flooring.jpeg"
                   alt="image"
@@ -198,7 +127,7 @@ const Products = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/WC-S.jpg"
                   alt="image"
@@ -216,7 +145,7 @@ const Products = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/shower.jpg"
                   alt="image"
@@ -234,7 +163,7 @@ const Products = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/bathroom-fittings.jpg"
                   alt="image"
@@ -252,7 +181,7 @@ const Products = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/bathtub.jpg"
                   alt="image"
@@ -270,7 +199,7 @@ const Products = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-120 overflow-hidden">
+              <div className="relative h-100 overflow-hidden">
                 <Image
                   src="/kitchen.jpeg"
                   alt="image"
