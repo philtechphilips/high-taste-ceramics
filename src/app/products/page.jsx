@@ -2,47 +2,39 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
 import MainLayout from "../../components/MainLayout";
+import { fetchProductCategories } from "../../services/product.service";
+import useAuthStore from "../../store/authStore";
+import toast from "react-hot-toast";
+import Collection from "../../components/Collection";
 
 const Products = () => {
-  // Collection data array
-  const collections = [
-    {
-      image: "/NYC Lobby - Terrazzo Flooring.jpeg",
-      title: "Tiles",
-      count: 30,
-    },
-    {
-      image: "/WC-S.jpg",
-      title: "Sanitary Ware",
-      count: 18,
-    },
-    {
-      image: "/shower.jpg",
-      title: "Bathroom Fittings",
-      count: 22,
-    },
-    {
-      image: "/bathroom-fittings.jpg",
-      title: "Bathroom Furniture",
-      count: 15,
-    },
-    {
-      image: "/bathtub.jpg",
-      title: "Bathtubs & Jacuzzi",
-      count: 12,
-    },
-    {
-      image: "/kitchen.jpeg",
-      title: "Kitchen Designs",
-      count: 9,
-    },
-  ];
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const user = useAuthStore((state) => state.user);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      if (user && user.token) {
+        setLoading(true);
+        try {
+          const data = await fetchProductCategories(user.token);
+          setCategories(data?.payload || []);
+        } catch (error) {
+          setCategories([]);
+          toast.error(error?.message || "Failed to fetch categories");
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    getCategories();
+  }, [user]);
 
   return (
     <MainLayout>
@@ -83,37 +75,7 @@ const Products = () => {
         </div>
       </section>
 
-      <section className="w-full bg-white md:px-10 px-4 py-20">
-        <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
-          Our Collections
-        </h1>
-
-        <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-x-6 md:gap-y-12 gap-y-12 mt-10">
-          {collections.map((col, idx) => (
-            <div key={col.title + idx} className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-100 overflow-hidden px-10 flex items-center justify-center">
-                <Image
-                  src={col.image}
-                  alt="image"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  data-aos="fade-up"
-                  data-aos-offset="200"
-                  data-aos-duration="500"
-                  data-aos-easing="ease-in-out"
-                  data-aos-mirror="true"
-                  data-aos-once="true"
-                  data-aos-anchor-placement="top-center"
-                />
-                <div className="flex flex-col w-[90%] absolute bottom-5 py-2 items-center justify-center bg-white/80">
-                  <p className="relative text-center font-semibold text-[#242222] ">{col.title}</p>
-                  <p className="relative text-center text-sm font-semibold text-[#424242] ">{col.count} products</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <Collection />
 
       <section className="w-full bg-[#EFEBE2] md:px-10 px-4 py-20">
         <div className="flex items-center justify-between">

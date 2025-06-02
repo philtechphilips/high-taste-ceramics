@@ -92,7 +92,7 @@ const Navbar = () => {
       >
         <div className="flex gap-1 items-center">
           <i className="ri-phone-line text-sm"></i>
-          <p className="text-sm">+14 321 456 789</p>
+          <p className="text-sm">+234 816 345 3995</p>
         </div>
       </div>
 
@@ -142,7 +142,10 @@ const Navbar = () => {
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border z-50">
-                  <Link href="/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100">
+                  <Link
+                    href="/profile"
+                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
+                  >
                     <i className="ri-user-3-line"></i> Profile
                   </Link>
                   <button
@@ -171,7 +174,7 @@ const Navbar = () => {
           ></i>
         </div>
       </div>
-{/* 
+      {/* 
       <div
         className="w-full md:px-10 border-b py-4 px-4 md:flex hidden items-center justify-between fixed top-[113px] z-50"
         style={navbarStyle}

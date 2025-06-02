@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
 import MainLayout from "../components/MainLayout";
+import Collection from "../components/Collection";
 
 export default function Home() {
   useEffect(() => {
@@ -95,6 +96,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <Collection />
 
       <section className="w-full bg-[#EFEBE2] md:px-10 px-4 py-20">
         <div className="flex items-center justify-between">
