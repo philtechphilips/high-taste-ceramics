@@ -1,11 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Scrollbar } from "swiper/modules";
 import useAuthStore from "../store/authStore";
+import { featuredProduct } from "../services/product.service";
 
 const FeaturedProduct = () => {
+  const [featuredProducts, setFeaturedProduct] = useState([]);
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        const response = await featuredProduct();
+        console.log("Featured Products:", response.payload);
+
+        setFeaturedProduct(response.payload);
+      } catch (error) {
+        console.error("Error fetching featured products:", error);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
   return (
     <section className="w-full bg-[#EFEBE2] md:px-10 px-4 py-20">
       <div className="flex items-center justify-between">
@@ -36,116 +53,47 @@ const FeaturedProduct = () => {
         modules={[Scrollbar]}
         className="mt-20 !pb-20"
       >
-        <SwiperSlide>
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-100 overflow-hidden">
-              <Image
-                src="/NYC Lobby - Terrazzo Flooring.jpeg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-left text-sm text-[#242222]">Tiles</p>
-                <p className="text-left text-sm text-[#242222] font-[Publicko]">
-                  Glossy, Matte, Wood-Effect, Carving
-                </p>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-100 overflow-hidden">
-              <Image
-                src="/WC-S.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-2 text-left text-sm text-[#242222]">
-              Sanitary Ware
-            </p>
-            <p className="relative mt-1 text-left text-sm text-[#242222] font-[Publicko]">
-              WCs, Washbasins, Bidets
-            </p>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-100 overflow-hidden">
-              <Image
-                src="/shower.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-2 text-left text-sm text-[#242222]">
-              Bathroom Fittings
-            </p>
-            <p className="relative mt-1 text-left text-sm text-[#242222] font-[Publicko]">
-              Faucets, Accessories, Shower Systems
-            </p>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-100 overflow-hidden">
-              <Image
-                src="/bathroom-fittings.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-2 text-left text-sm text-[#242222]">
-              Bathroom Furniture
-            </p>
-            <p className="relative mt-1 text-left text-sm text-[#242222] font-[Publicko]">
-              Cabinets, Mirrors, Vanities
-            </p>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-100 overflow-hidden">
-              <Image
-                src="/bathtub.jpg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-2 text-left text-sm text-[#242222]">
-              Bathtubs & Jacuzzi
-            </p>
-            <p className="relative mt-1 text-left text-sm text-[#242222] font-[Publicko]">
-              Luxury soaking and spa solutions
-            </p>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="overflow-hidden group relative cursor-pointer">
-            <div className="relative h-100 overflow-hidden">
-              <Image
-                src="/kitchen.jpeg"
-                alt="image"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <p className="relative mt-2 text-left text-sm text-[#242222]">
-              Kitchen Designs
-            </p>
-            <p className="relative mt-1 text-left text-sm text-[#242222] font-[Publicko]">
-              Fully fitted modular kitchens with elegant finishings
-            </p>
-          </div>
-        </SwiperSlide>
+        {featuredProducts && featuredProducts.length > 0
+          ? featuredProducts.map((product, idx) => (
+              <SwiperSlide key={idx}>
+                <Link
+                  href={`/products/details/${product?.id}`}
+                  className="overflow-hidden group relative cursor-pointer"
+                >
+                  <div className="relative h-100 overflow-hidden">
+                    <Image
+                      src={product?.image}
+                      alt={product?.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-left text-sm text-[#242222]">
+                        {product?.category?.name}
+                      </p>
+                      <p className="text-left text-sm text-[#242222] font-[Publicko]">
+                        {product?.name}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </SwiperSlide>
+            ))
+          : Array.from({ length: 4 }).map((_, idx) => (
+              <SwiperSlide key={"skeleton-" + idx}>
+                <div className="overflow-hidden group relative cursor-pointer animate-pulse">
+                  <div className="relative h-100 overflow-hidden bg-gray-200 rounded-md min-h-[220px] flex items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-skeleton" />
+                  </div>
+                  <div className="flex flex-col w-[90%] absolute bottom-5 py-2 items-center justify-center bg-white/80">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+                    <div className="h-3 bg-gray-200 rounded w-1/2" />
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
       </Swiper>
     </section>
   );

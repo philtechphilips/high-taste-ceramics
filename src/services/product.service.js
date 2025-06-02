@@ -10,8 +10,18 @@ export const fetchProducts = async () => {
   return response.data;
 };
 
+export const featuredProduct = async () => {
+  const response = await axiosInstance.get("/product/featured");
+  return response.data;
+};
+
 export const fetchProductsByCategoryId = async (categoryId) => {
   const response = await axiosInstance.get(`/product/category/${categoryId}`);
+  return response.data;
+};
+
+export const featuredProductById = async (product_id) => {
+  const response = await axiosInstance.get(`/product/${product_id}`);
   return response.data;
 };
 
