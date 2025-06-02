@@ -25,8 +25,16 @@ export const featuredProductById = async (product_id) => {
   return response.data;
 };
 
-// , {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   }
+export const checkout = async (data, token) => {
+  console.log("Checkout data:", data);
+  const response = await axiosInstance.post(
+    `/cart/checkout`,
+    { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+};

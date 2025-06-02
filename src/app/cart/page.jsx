@@ -136,9 +136,12 @@ const Cart = () => {
 
                 {/* Submit Quote Button */}
                 <div className="flex justify-end mt-12">
-                  <button className="bg-[#242222] text-white px-8 py-3 text-lg hover:bg-[#3a3a3a] transition-colors duration-200 rounded-full">
+                  <Link
+                    href="/checkout"
+                    className="bg-[#242222] text-white px-8 py-3 text-lg hover:bg-[#3a3a3a] transition-colors duration-200 rounded-full"
+                  >
                     Submit Quote Request
-                  </button>
+                  </Link>
                 </div>
               </>
             ) : (

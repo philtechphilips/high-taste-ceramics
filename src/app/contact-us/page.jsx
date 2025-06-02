@@ -2,14 +2,50 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
 import MainLayout from "../../components/MainLayout";
+import FeaturedProduct from "../../components/FeaturedProduct";
+import toast, { Toaster } from "react-hot-toast";
+import { contactUS } from "../../services/contact.service";
 
 const Contact = () => {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Validation
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    setLoading(true);
+    try {
+      await contactUS(form);
+      toast.success("Message sent successfully!");
+      setForm({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <MainLayout>
       <section className="w-full py-40 pt-60 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-10 px-5">
@@ -51,7 +87,7 @@ const Contact = () => {
             <div className="bg-[#f8f8f8] p-3 rounded-full flex items-center justify-center w-10 h-10">
               <i className="ri-phone-line text-lg text-[#242222]"></i>
             </div>
-            <p>+234 123 456 7890</p>
+            <Link href="tel:+234816345399">+234 816 345 3995</Link>
           </div>
 
           {/* Email */}
@@ -68,12 +104,12 @@ const Contact = () => {
               <i className="ri-whatsapp-line text-lg text-[#242222]"></i>
             </div>
             <a
-              href="https://wa.me/2341234567890"
+              href="https://wa.me/2349090222221"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline"
             >
-              Chat on WhatsApp
+              +234 909 022 2221
             </a>
           </div>
 
@@ -94,7 +130,7 @@ const Contact = () => {
         </div>
 
         <div className="w-full md:w-1/2 bg-[#F8F8F8] p-8 md:p-12 ">
-          <form className="flex flex-col gap-8">
+          <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
             <h2 className="text-2xl md:text-3xl font-[Publicko] text-[#242222] mb-4">
               Send us a message
             </h2>
@@ -105,6 +141,8 @@ const Contact = () => {
                 type="text"
                 id="name"
                 required
+                value={form.name}
+                onChange={handleChange}
                 className="w-full px-4 pt-5 pb-2 rounded-lg border border-[#ccc] bg-white text-[#242222] placeholder-transparent focus:outline-none focus:ring-1 focus:ring-[#242222]"
                 placeholder="Name"
               />
@@ -122,6 +160,8 @@ const Contact = () => {
                 type="email"
                 id="email"
                 required
+                value={form.email}
+                onChange={handleChange}
                 className="w-full px-4 pt-5 pb-2 rounded-lg border border-[#ccc] bg-white text-[#242222] placeholder-transparent focus:outline-none focus:ring-1 focus:ring-[#242222]"
                 placeholder="Email"
               />
@@ -139,6 +179,8 @@ const Contact = () => {
                 id="message"
                 rows={5}
                 required
+                value={form.message}
+                onChange={handleChange}
                 className="w-full px-4 pt-5 pb-2 rounded-lg border border-[#ccc] bg-white text-[#242222] placeholder-transparent focus:outline-none focus:ring-1 focus:ring-[#242222] resize-none"
                 placeholder="Your Message"
               ></textarea>
@@ -153,155 +195,38 @@ const Contact = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="bg-[#242222] text-white py-3 px-6 rounded-xl hover:bg-[#3a3838] transition-all duration-200 text-base font-medium shadow-md"
+              className="bg-[#242222] text-white py-3 px-6 rounded-xl hover:bg-[#3a3838] transition-all duration-200 text-base font-medium shadow-md flex items-center justify-center gap-2"
+              disabled={loading}
             >
-              Send Message
+              {loading && (
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+              )}
+              {loading ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>
       </section>
-
-      <section className="w-full bg-[#EFEBE2] md:px-10 px-4 py-20">
-        <div className="flex items-center justify-between">
-          <h1 className="font-[Publicko] font-[300] text-[#242222] text-5xl">
-            Featured Products
-          </h1>
-
-          <Link
-            href="/contact-us"
-            className="px-5 py-2 text-[#242222] border border-[#242222] font-semibold text-sm rounded-full 
-             hover:bg-[#242222] hover:text-white 
-             transition-colors duration-300 ease-in-out"
-          >
-            Learn more
-          </Link>
-        </div>
-
-        <Swiper
-          spaceBetween={50}
-          slidesPerView={1}
-          breakpoints={{
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 4 },
-          }}
-          scrollbar={{ draggable: true }}
-          modules={[Scrollbar]}
-          className="mt-20 !pb-20"
-        >
-          <SwiperSlide>
-            <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-100 overflow-hidden">
-                <Image
-                  src="/NYC Lobby - Terrazzo Flooring.jpeg"
-                  alt="image"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-left text-sm text-[#242222]">Tiles</p>
-                  <p className="text-left text-sm text-[#242222] font-[Publicko]">
-                    Glossy, Matte, Wood-Effect, Carving
-                  </p>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-100 overflow-hidden">
-                <Image
-                  src="/WC-S.jpg"
-                  alt="image"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <p className="relative mt-2 text-left text-sm text-[#242222]">
-                Sanitary Ware
-              </p>
-              <p className="relative mt-1 text-left text-sm text-[#242222] font-[Publicko]">
-                WCs, Washbasins, Bidets
-              </p>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-100 overflow-hidden">
-                <Image
-                  src="/shower.jpg"
-                  alt="image"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <p className="relative mt-2 text-left text-sm text-[#242222]">
-                Bathroom Fittings
-              </p>
-              <p className="relative mt-1 text-left text-sm text-[#242222] font-[Publicko]">
-                Faucets, Accessories, Shower Systems
-              </p>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-100 overflow-hidden">
-                <Image
-                  src="/bathroom-fittings.jpg"
-                  alt="image"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <p className="relative mt-2 text-left text-sm text-[#242222]">
-                Bathroom Furniture
-              </p>
-              <p className="relative mt-1 text-left text-sm text-[#242222] font-[Publicko]">
-                Cabinets, Mirrors, Vanities
-              </p>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-100 overflow-hidden">
-                <Image
-                  src="/bathtub.jpg"
-                  alt="image"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <p className="relative mt-2 text-left text-sm text-[#242222]">
-                Bathtubs & Jacuzzi
-              </p>
-              <p className="relative mt-1 text-left text-sm text-[#242222] font-[Publicko]">
-                Luxury soaking and spa solutions
-              </p>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="overflow-hidden group relative cursor-pointer">
-              <div className="relative h-100 overflow-hidden">
-                <Image
-                  src="/kitchen.jpeg"
-                  alt="image"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <p className="relative mt-2 text-left text-sm text-[#242222]">
-                Kitchen Designs
-              </p>
-              <p className="relative mt-1 text-left text-sm text-[#242222] font-[Publicko]">
-                Fully fitted modular kitchens with elegant finishings
-              </p>
-            </div>
-          </SwiperSlide>
-        </Swiper>
-      </section>
-
+      <Toaster />
+      <FeaturedProduct />
       {/* <section className="md:px-10 px-5">
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.556173284495!2d3.479792175679825!3d6.450978824000454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf56e5e8ea533%3A0x6557c73794c27d93!2sHigh%20Taste%20Ceramics!5e0!3m2!1sen!2sng!4v1747438957112!5m2!1sen!2sng" width="600" height="450" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
       </section> */}
