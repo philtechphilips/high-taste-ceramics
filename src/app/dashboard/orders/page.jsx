@@ -1,66 +1,38 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReportDashboardLayout from "../../../components/ReportDashboardLayout";
 import SimpleTable from "../../../components/ui/SimpleTable";
 import Link from "next/link";
-
-const orders = [
-  {
-    id: "#ORD-001",
-    customer: "Sarah Johnson",
-    email: "sarah.johnson@email.com",
-    products: "Ceramic Vase Set",
-    total: "$89.99",
-    status: "Delivered",
-    date: "Today, 10:30 AM",
-    payment: "Paid",
-  },
-  {
-    id: "#ORD-002",
-    customer: "Mike Chen",
-    email: "mike.chen@email.com",
-    products: "Kitchen Tiles",
-    total: "$245.50",
-    status: "Processing",
-    date: "Yesterday, 3:42 PM",
-    payment: "Paid",
-  },
-  {
-    id: "#ORD-003",
-    customer: "Emma Davis",
-    email: "emma.davis@email.com",
-    products: "Bathroom Fittings",
-    total: "$156.75",
-    status: "Shipped",
-    date: "Jul 25, 2023",
-    payment: "Paid",
-  },
-  {
-    id: "#ORD-004",
-    customer: "David Wilson",
-    email: "david.wilson@email.com",
-    products: "Ceramic Plates",
-    total: "$67.25",
-    status: "Pending",
-    date: "Jul 23, 2023",
-    payment: "Pending",
-  },
-  {
-    id: "#ORD-005",
-    customer: "Lisa Brown",
-    email: "lisa.brown@email.com",
-    products: "Terrazzo Flooring",
-    total: "$189.99",
-    status: "Cancelled",
-    date: "Jul 22, 2023",
-    payment: "Refunded",
-  },
-];
+import { getAllOrders } from "../../../services/order.service";
+import useAuthStore from "../../../store/authStore";
 
 const OrdersPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const user = useAuthStore((state) => state.user);
+  const token = user?.token;
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await getAllOrders(token);
+        if (response.payload) {
+          setOrders(response.payload);
+        }
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchOrders();
+    }
+  }, [token]);
 
   const statuses = [
     "All",
@@ -117,6 +89,19 @@ const OrdersPage = () => {
       showActionButtons={false}
     >
       <div className="space-y-6">
+        {/* Info Banner */}
+        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+          <div className="flex items-center">
+            <i className="ri-check-line text-green-500 mr-2"></i>
+            <p className="text-green-700 dark:text-green-300 text-sm">
+              Orders are now stored in the database and can be managed directly
+              from this dashboard. When customers checkout, orders are
+              automatically created and email notifications are sent to the
+              admin.
+            </p>
+          </div>
+        </div>
+
         {/* Filters */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-background-50 dark:border-gray-700 p-6">
           <div className="flex flex-col md:flex-row gap-4">
@@ -159,170 +144,102 @@ const OrdersPage = () => {
             </h3>
           </div>
           <div className="overflow-x-auto">
-            <SimpleTable
-              data={filteredOrders}
-              columns={[
-                {
-                  header: "Order",
-                  key: "id",
-                  render: (value, row) => (
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">
+            {loading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-400"></div>
+              </div>
+            ) : (
+              <SimpleTable
+                data={filteredOrders}
+                columns={[
+                  {
+                    header: "Order",
+                    key: "id",
+                    render: (value, row) => (
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">
+                          {value}
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {row.date}
+                        </p>
+                      </div>
+                    ),
+                  },
+                  {
+                    header: "Customer",
+                    key: "customer",
+                    render: (value, row) => (
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">
+                          {value}
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {row.email}
+                        </p>
+                      </div>
+                    ),
+                  },
+                  {
+                    header: "Products",
+                    key: "products",
+                    render: (value) => (
+                      <span className="text-gray-900 dark:text-white">
                         {value}
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {row.date}
-                      </p>
-                    </div>
-                  ),
-                },
-                {
-                  header: "Customer",
-                  key: "customer",
-                  render: (value, row) => (
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">
+                      </span>
+                    ),
+                  },
+                  {
+                    header: "Total",
+                    key: "total",
+                    render: (value) => (
+                      <span className="font-semibold text-gray-900 dark:text-white">
                         {value}
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {row.email}
-                      </p>
-                    </div>
-                  ),
-                },
-                {
-                  header: "Products",
-                  key: "products",
-                  render: (value) => (
-                    <span className="text-gray-900 dark:text-white">
-                      {value}
-                    </span>
-                  ),
-                },
-                {
-                  header: "Total",
-                  key: "total",
-                  render: (value) => (
-                    <span className="font-semibold text-gray-900 dark:text-white">
-                      {value}
-                    </span>
-                  ),
-                },
-                {
-                  header: "Status",
-                  key: "status",
-                  render: (value) => (
-                    <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(value)}`}
-                    >
-                      {value}
-                    </span>
-                  ),
-                },
-                {
-                  header: "Payment",
-                  key: "payment",
-                  render: (value) => (
-                    <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPaymentColor(value)}`}
-                    >
-                      {value}
-                    </span>
-                  ),
-                },
-                {
-                  header: "Actions",
-                  key: "id",
-                  render: (value) => (
-                    <div className="flex items-center space-x-2">
-                      <Link
-                        href={`/dashboard/orders/${value}`}
-                        className="text-primary-400 hover:text-primary-600 text-sm font-medium"
+                      </span>
+                    ),
+                  },
+                  {
+                    header: "Status",
+                    key: "status",
+                    render: (value) => (
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(value)}`}
                       >
-                        View
-                      </Link>
-                      <button className="text-primary-400 hover:text-primary-600 text-sm font-medium">
-                        Update
-                      </button>
-                    </div>
-                  ),
-                },
-              ]}
-            />
-          </div>
-        </div>
-
-        {/* Order Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-background-50 dark:border-gray-700 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Total Orders
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {orders.length}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
-                <i className="ri-shopping-bag-line text-blue-600 dark:text-blue-400 text-xl"></i>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-background-50 dark:border-gray-700 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Pending
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {orders.filter((o) => o.status === "Pending").length}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center">
-                <i className="ri-time-line text-yellow-600 dark:text-yellow-400 text-xl"></i>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-background-50 dark:border-gray-700 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Delivered
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {orders.filter((o) => o.status === "Delivered").length}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
-                <i className="ri-check-line text-green-600 dark:text-green-400 text-xl"></i>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-background-50 dark:border-gray-700 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Revenue
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  $
-                  {orders
-                    .reduce(
-                      (sum, order) =>
-                        sum + parseFloat(order.total.replace("$", "")),
-                      0,
-                    )
-                    .toFixed(2)}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
-                <i className="ri-money-dollar-circle-line text-green-600 dark:text-green-400 text-xl"></i>
-              </div>
-            </div>
+                        {value}
+                      </span>
+                    ),
+                  },
+                  {
+                    header: "Payment",
+                    key: "payment",
+                    render: (value) => (
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPaymentColor(value)}`}
+                      >
+                        {value}
+                      </span>
+                    ),
+                  },
+                  {
+                    header: "Actions",
+                    key: "id",
+                    render: (value) => (
+                      <div className="flex items-center space-x-2">
+                        <Link
+                          href={`/dashboard/orders/${value}`}
+                          className="text-primary-400 hover:text-primary-600 text-sm font-medium"
+                        >
+                          View
+                        </Link>
+                        <button className="text-primary-400 hover:text-primary-600 text-sm font-medium">
+                          Update
+                        </button>
+                      </div>
+                    ),
+                  },
+                ]}
+              />
+            )}
           </div>
         </div>
       </div>

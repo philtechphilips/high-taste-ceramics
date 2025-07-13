@@ -1,99 +1,148 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReportDashboardLayout from "../../../components/ReportDashboardLayout";
 import SimpleTable from "../../../components/ui/SimpleTable";
-import Link from "next/link";
-
-const products = [
-  {
-    id: 1,
-    name: "Ceramic Vase Set",
-    category: "Home Decor",
-    price: "$89.99",
-    stock: 45,
-    status: "Active",
-    image: "/images/Avatar.png",
-  },
-  {
-    id: 2,
-    name: "Kitchen Tiles",
-    category: "Tiles",
-    price: "$245.50",
-    stock: 12,
-    status: "Active",
-    image: "/images/Avatar.png",
-  },
-  {
-    id: 3,
-    name: "Bathroom Fittings",
-    category: "Bathroom",
-    price: "$156.75",
-    stock: 8,
-    status: "Low Stock",
-    image: "/images/Avatar.png",
-  },
-  {
-    id: 4,
-    name: "Ceramic Plates",
-    category: "Kitchenware",
-    price: "$67.25",
-    stock: 0,
-    status: "Out of Stock",
-    image: "/images/Avatar.png",
-  },
-  {
-    id: 5,
-    name: "Terrazzo Flooring",
-    category: "Flooring",
-    price: "$89.99",
-    stock: 23,
-    status: "Active",
-    image: "/images/Avatar.png",
-  },
-];
+import AddProductModal from "../../../components/AddProductModal";
+import EditProductModal from "../../../components/EditProductModal";
+import DeleteConfirmationModal from "../../../components/DeleteConfirmationModal";
+import {
+  fetchProducts,
+  deleteProduct,
+  fetchProductCategories,
+} from "../../../services/product.service";
+import useAuthStore from "../../../store/authStore";
 
 const ProductsPage = () => {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
+  const [showEditProductModal, setShowEditProductModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const user = useAuthStore((state) => state.user);
+  const token = user?.token;
 
-  const categories = [
-    "All",
-    "Home Decor",
-    "Tiles",
-    "Bathroom",
-    "Kitchenware",
-    "Flooring",
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [productsResponse, categoriesResponse] = await Promise.all([
+          fetchProducts(),
+          fetchProductCategories(),
+        ]);
+
+        if (productsResponse.payload) {
+          setProducts(productsResponse.payload);
+        }
+
+        if (categoriesResponse.payload) {
+          setCategories(categoriesResponse.payload);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     const matchesCategory =
-      selectedCategory === "All" || product.category === selectedCategory;
+      selectedCategory === "All" || product.category?.name === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Active":
-        return "bg-green-100 text-green-800";
-      case "Low Stock":
-        return "bg-yellow-100 text-yellow-800";
-      case "Out of Stock":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
+  const getStatusColor = (isFeatured) => {
+    if (isFeatured) {
+      return "bg-yellow-100 text-yellow-800";
+    } else {
+      return "bg-gray-100 text-gray-800";
     }
   };
+
+  const getStatusText = (isFeatured) => {
+    if (isFeatured) {
+      return "Featured";
+    } else {
+      return "Active";
+    }
+  };
+
+  const handleEditProduct = (product) => {
+    setSelectedProduct(product);
+    setShowEditProductModal(true);
+  };
+
+  const handleDeleteProduct = (product) => {
+    setSelectedProduct(product);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteProduct = async () => {
+    if (!selectedProduct) return;
+
+    setDeleteLoading(true);
+    try {
+      await deleteProduct(selectedProduct.id, token);
+      // Refresh products list
+      const response = await fetchProducts();
+      if (response.payload) {
+        setProducts(response.payload);
+      }
+      setShowDeleteModal(false);
+      setSelectedProduct(null);
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
+  const refreshProducts = async () => {
+    setLoading(true);
+    try {
+      const response = await fetchProducts();
+      if (response.payload) {
+        setProducts(response.payload);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <ReportDashboardLayout
+        title="Products"
+        description="Manage your ceramics products"
+        showActionButtons={true}
+        onCreateNew={() => console.log("Add new product")}
+        createButtonText="Add Product"
+      >
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Loading products...</div>
+        </div>
+      </ReportDashboardLayout>
+    );
+  }
 
   return (
     <ReportDashboardLayout
       title="Products"
       description="Manage your ceramics products"
       showActionButtons={true}
-      onCreateNew={() => console.log("Add new product")}
+      onCreateNew={() => setShowAddProductModal(true)}
       createButtonText="Add Product"
     >
       <div className="space-y-6">
@@ -121,9 +170,10 @@ const ProductsPage = () => {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
               >
+                <option value="All">All Categories</option>
                 {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                  <option key={category.id} value={category.name}>
+                    {category.name}
                   </option>
                 ))}
               </select>
@@ -148,7 +198,7 @@ const ProductsPage = () => {
                   render: (value, row) => (
                     <div className="flex items-center space-x-3">
                       <img
-                        src={row.image}
+                        src={row.image || "/images/Avatar.png"}
                         alt={value}
                         className="w-10 h-10 rounded-lg object-cover"
                       />
@@ -157,53 +207,55 @@ const ProductsPage = () => {
                           {value}
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {row.category}
+                          {row.category?.name || "Uncategorized"}
                         </p>
                       </div>
                     </div>
                   ),
                 },
                 {
-                  header: "Price",
-                  key: "price",
+                  header: "Details",
+                  key: "details",
                   render: (value) => (
-                    <span className="font-semibold text-gray-900 dark:text-white">
-                      {value}
-                    </span>
-                  ),
-                },
-                {
-                  header: "Stock",
-                  key: "stock",
-                  render: (value) => (
-                    <span className="font-medium text-gray-900 dark:text-white">
-                      {value}
+                    <span className="text-gray-900 dark:text-white text-sm">
+                      {value
+                        ? value.length > 50
+                          ? value.substring(0, 50) + "..."
+                          : value
+                        : "No details"}
                     </span>
                   ),
                 },
                 {
                   header: "Status",
-                  key: "status",
-                  render: (value) => (
-                    <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(value)}`}
-                    >
-                      {value}
-                    </span>
-                  ),
+                  key: "isFeatured",
+                  render: (value, row) => {
+                    const status = getStatusText(row.isFeatured);
+                    const statusColor = getStatusColor(row.isFeatured);
+                    return (
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor}`}
+                      >
+                        {status}
+                      </span>
+                    );
+                  },
                 },
                 {
                   header: "Actions",
                   key: "id",
-                  render: (value) => (
+                  render: (value, row) => (
                     <div className="flex items-center space-x-2">
-                      <Link
-                        href={`/dashboard/products/edit/${value}`}
+                      <button
+                        onClick={() => handleEditProduct(row)}
                         className="text-primary-400 hover:text-primary-600 text-sm font-medium"
                       >
                         Edit
-                      </Link>
-                      <button className="text-red-500 hover:text-red-700 text-sm font-medium">
+                      </button>
+                      <button
+                        onClick={() => handleDeleteProduct(row)}
+                        className="text-red-500 hover:text-red-700 text-sm font-medium"
+                      >
                         Delete
                       </button>
                     </div>
@@ -214,6 +266,30 @@ const ProductsPage = () => {
           </div>
         </div>
       </div>
+
+      <AddProductModal
+        isOpen={showAddProductModal}
+        onClose={() => setShowAddProductModal(false)}
+        onSuccess={refreshProducts}
+      />
+
+      <EditProductModal
+        isOpen={showEditProductModal}
+        onClose={() => setShowEditProductModal(false)}
+        product={selectedProduct}
+        onSuccess={refreshProducts}
+      />
+
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmDeleteProduct}
+        title="Delete Product"
+        message="Are you sure you want to delete this product? This action cannot be undone."
+        confirmText="Delete Product"
+        loading={deleteLoading}
+        itemName={selectedProduct?.name}
+      />
     </ReportDashboardLayout>
   );
 };

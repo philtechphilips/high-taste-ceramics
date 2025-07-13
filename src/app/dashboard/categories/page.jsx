@@ -1,66 +1,117 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReportDashboardLayout from "../../../components/ReportDashboardLayout";
 import SimpleTable from "../../../components/ui/SimpleTable";
+import AddCategoryModal from "../../../components/AddCategoryModal";
+import EditCategoryModal from "../../../components/EditCategoryModal";
+import DeleteConfirmationModal from "../../../components/DeleteConfirmationModal";
 import Link from "next/link";
-
-const categories = [
-  {
-    id: 1,
-    name: "Home Decor",
-    description: "Ceramic vases, decorative items, and home accessories",
-    products: 24,
-    status: "Active",
-    image: "/images/Avatar.png",
-  },
-  {
-    id: 2,
-    name: "Tiles",
-    description: "Kitchen and bathroom tiles, floor tiles",
-    products: 18,
-    status: "Active",
-    image: "/images/Avatar.png",
-  },
-  {
-    id: 3,
-    name: "Bathroom",
-    description: "Bathroom fittings, sinks, and accessories",
-    products: 12,
-    status: "Active",
-    image: "/images/Avatar.png",
-  },
-  {
-    id: 4,
-    name: "Kitchenware",
-    description: "Plates, bowls, cups, and kitchen accessories",
-    products: 31,
-    status: "Active",
-    image: "/images/Avatar.png",
-  },
-  {
-    id: 5,
-    name: "Flooring",
-    description: "Terrazzo and ceramic flooring materials",
-    products: 8,
-    status: "Active",
-    image: "/images/Avatar.png",
-  },
-];
+import {
+  fetchProductCategories,
+  deleteCategory,
+} from "../../../services/product.service";
+import useAuthStore from "../../../store/authStore";
 
 const CategoriesPage = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
+  const [showEditCategoryModal, setShowEditCategoryModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const user = useAuthStore((state) => state.user);
+  const token = user?.token;
+
+  useEffect(() => {
+    const fetchCategoriesData = async () => {
+      try {
+        const response = await fetchProductCategories();
+        if (response.payload) {
+          setCategories(response.payload);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategoriesData();
+  }, [token]);
 
   const filteredCategories = categories.filter((category) =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  const handleEditCategory = (category) => {
+    setSelectedCategory(category);
+    setShowEditCategoryModal(true);
+  };
+
+  const handleDeleteCategory = (category) => {
+    setSelectedCategory(category);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteCategory = async () => {
+    if (!selectedCategory) return;
+
+    setDeleteLoading(true);
+    try {
+      await deleteCategory(selectedCategory.id, token);
+      // Refresh categories list
+      const response = await fetchProductCategories();
+      if (response.payload) {
+        setCategories(response.payload);
+      }
+      setShowDeleteModal(false);
+      setSelectedCategory(null);
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
+  const refreshCategories = async () => {
+    setLoading(true);
+    try {
+      const response = await fetchProductCategories();
+      if (response.payload) {
+        setCategories(response.payload);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <ReportDashboardLayout
+        title="Categories"
+        description="Manage your product categories"
+        showActionButtons={true}
+        onCreateNew={() => console.log("Add new category")}
+        createButtonText="Add Category"
+      >
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Loading categories...</div>
+        </div>
+      </ReportDashboardLayout>
+    );
+  }
 
   return (
     <ReportDashboardLayout
       title="Categories"
       description="Manage your product categories"
       showActionButtons={true}
-      onCreateNew={() => console.log("Add new category")}
+      onCreateNew={() => setShowAddCategoryModal(true)}
       createButtonText="Add Category"
     >
       <div className="space-y-6">
@@ -90,7 +141,7 @@ const CategoriesPage = () => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <img
-                    src={category.image}
+                    src={category.image || "/images/Avatar.png"}
                     alt={category.name}
                     className="w-12 h-12 rounded-lg object-cover"
                   />
@@ -99,32 +150,21 @@ const CategoriesPage = () => {
                       {category.name}
                     </h3>
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      {category.status}
+                      Active
                     </span>
                   </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Link
-                    href={`/dashboard/categories/edit/${category.id}`}
-                    className="text-primary-400 hover:text-primary-600 text-sm font-medium"
-                  >
-                    Edit
-                  </Link>
-                  <button className="text-red-500 hover:text-red-700 text-sm font-medium">
-                    Delete
-                  </button>
                 </div>
               </div>
 
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                {category.description}
+                {category.description || "No description available"}
               </p>
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <i className="ri-shopping-bag-line text-gray-400"></i>
                   <span className="text-sm text-gray-600 dark:text-gray-400">
-                    {category.products} products
+                    {category.productCount || 0} products
                   </span>
                 </div>
                 <Link
@@ -155,7 +195,7 @@ const CategoriesPage = () => {
                   render: (value, row) => (
                     <div className="flex items-center space-x-3">
                       <img
-                        src={row.image}
+                        src={row.image || "/images/Avatar.png"}
                         alt={value}
                         className="w-10 h-10 rounded-lg object-cover"
                       />
@@ -164,7 +204,7 @@ const CategoriesPage = () => {
                           {value}
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {row.description}
+                          {row.description || "No description"}
                         </p>
                       </div>
                     </div>
@@ -172,34 +212,37 @@ const CategoriesPage = () => {
                 },
                 {
                   header: "Products",
-                  key: "products",
+                  key: "productCount",
                   render: (value) => (
                     <span className="font-medium text-gray-900 dark:text-white">
-                      {value}
+                      {value || 0}
                     </span>
                   ),
                 },
                 {
                   header: "Status",
-                  key: "status",
+                  key: "isDeleted",
                   render: (value) => (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      {value}
+                      Active
                     </span>
                   ),
                 },
                 {
                   header: "Actions",
                   key: "id",
-                  render: (value) => (
+                  render: (value, row) => (
                     <div className="flex items-center space-x-2">
-                      <Link
-                        href={`/dashboard/categories/edit/${value}`}
+                      <button
+                        onClick={() => handleEditCategory(row)}
                         className="text-primary-400 hover:text-primary-600 text-sm font-medium"
                       >
                         Edit
-                      </Link>
-                      <button className="text-red-500 hover:text-red-700 text-sm font-medium">
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCategory(row)}
+                        className="text-red-500 hover:text-red-700 text-sm font-medium"
+                      >
                         Delete
                       </button>
                     </div>
@@ -210,6 +253,30 @@ const CategoriesPage = () => {
           </div>
         </div>
       </div>
+
+      <AddCategoryModal
+        isOpen={showAddCategoryModal}
+        onClose={() => setShowAddCategoryModal(false)}
+        onSuccess={refreshCategories}
+      />
+
+      <EditCategoryModal
+        isOpen={showEditCategoryModal}
+        onClose={() => setShowEditCategoryModal(false)}
+        category={selectedCategory}
+        onSuccess={refreshCategories}
+      />
+
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmDeleteCategory}
+        title="Delete Category"
+        message="Are you sure you want to delete this category? This will also delete all products in this category. This action cannot be undone."
+        confirmText="Delete Category"
+        loading={deleteLoading}
+        itemName={selectedCategory?.name}
+      />
     </ReportDashboardLayout>
   );
 };

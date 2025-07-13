@@ -5,48 +5,122 @@ import SimpleTable from "../../components/ui/SimpleTable";
 import ReportDashboardLayout from "../../components/ReportDashboardLayout";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-
-const recentOrders = [
-  {
-    id: "#ORD-001",
-    customer: "Sarah Johnson",
-    product: "Ceramic Vase Set",
-    amount: "$89.99",
-    status: "Delivered",
-    date: "Today, 10:30 AM",
-  },
-  {
-    id: "#ORD-002",
-    customer: "Mike Chen",
-    product: "Kitchen Tiles",
-    amount: "$245.50",
-    status: "Processing",
-    date: "Yesterday, 3:42 PM",
-  },
-  {
-    id: "#ORD-003",
-    customer: "Emma Davis",
-    product: "Bathroom Fittings",
-    amount: "$156.75",
-    status: "Shipped",
-    date: "Jul 25, 2023",
-  },
-  {
-    id: "#ORD-004",
-    customer: "David Wilson",
-    product: "Ceramic Plates",
-    amount: "$67.25",
-    status: "Pending",
-    date: "Jul 23, 2023",
-  },
-];
+import React, { useState, useEffect } from "react";
+import {
+  getDashboardStats,
+  getRecentCartActivity,
+  getAllProducts,
+  getAllCategories,
+  getProductAnalytics,
+} from "../../services/admin.service";
+import useAuthStore from "../../store/authStore";
+import AddProductModal from "../../components/AddProductModal";
+import AddCategoryModal from "../../components/AddCategoryModal";
 
 const Dashboard = () => {
-  const stats = [
+  const [stats, setStats] = useState({
+    totalSales: "$0",
+    totalOrders: 0,
+    totalProducts: 0,
+    totalCustomers: 0,
+  });
+  const [recentActivity, setRecentActivity] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [productAnalytics, setProductAnalytics] = useState({
+    totalProducts: 0,
+    featuredProducts: 0,
+    categories: 0,
+    productsByCategory: [],
+    recentProducts: [],
+  });
+  const [loading, setLoading] = useState(true);
+  const [activityLoading, setActivityLoading] = useState(true);
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
+  const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
+  const user = useAuthStore((state) => state.user);
+  const token = user?.token;
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        // Fetch dashboard stats
+        const statsResponse = await getDashboardStats(token);
+        if (statsResponse.payload) {
+          setStats({
+            totalSales: statsResponse.payload.totalSales || "$0",
+            totalOrders: statsResponse.payload.totalOrders || 0,
+            totalProducts: statsResponse.payload.totalProducts || 0,
+            totalCustomers: statsResponse.payload.totalCustomers || 0,
+          });
+        }
+
+        // Fetch recent activity (cart items as proxy for orders)
+        const activityResponse = await getRecentCartActivity(token);
+        if (activityResponse.payload) {
+          // Transform cart items to look like recent orders
+          const transformedActivity = activityResponse.payload
+            .slice(0, 4)
+            .map((item, index) => ({
+              id: `#CART-${String(index + 1).padStart(3, "0")}`,
+              customer: item.user?.firstName
+                ? `${item.user.firstName} ${item.user.lastName}`
+                : "Customer",
+              product: item.product?.name || "Product",
+              amount: item.product?.price ? `$${item.product.price}` : "$0.00",
+              status: "In Cart",
+              date: new Date(item.created_at).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              }),
+              quantity: item.quantity,
+            }));
+          setRecentActivity(transformedActivity);
+        }
+
+        // Fetch products and categories for additional stats
+        const [productsResponse, categoriesResponse, analyticsResponse] =
+          await Promise.all([
+            getAllProducts(token),
+            getAllCategories(token),
+            getProductAnalytics(token),
+          ]);
+
+        if (productsResponse.payload) {
+          setProducts(productsResponse.payload);
+        }
+
+        if (categoriesResponse.payload) {
+          setCategories(categoriesResponse.payload);
+        }
+
+        if (analyticsResponse.payload) {
+          setProductAnalytics(analyticsResponse.payload);
+        }
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setLoading(false);
+        setActivityLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchDashboardData();
+    }
+  }, [token]);
+
+  const refreshDashboardData = () => {
+    setLoading(true);
+    setActivityLoading(true);
+    fetchDashboardData();
+  };
+
+  const dashboardStats = [
     {
       title: "Total Sales",
-      value: "$12,847",
+      value: stats.totalSales,
       change: (
         <>
           <i className="ri-arrow-up-line text-green-500 dark:text-green-400 mr-1" />
@@ -82,7 +156,7 @@ const Dashboard = () => {
     },
     {
       title: "Orders",
-      value: "156",
+      value: stats.totalOrders.toString(),
       change: (
         <>
           <i className="ri-arrow-up-line text-green-500 dark:text-green-400 mr-1" />
@@ -111,11 +185,11 @@ const Dashboard = () => {
     },
     {
       title: "Products",
-      value: "89",
+      value: products.length.toString(),
       change: (
         <>
           <i className="ri-arrow-up-line text-green-500 dark:text-green-400 mr-1" />
-          5
+          {products.length}
         </>
       ),
       changeType: "positive",
@@ -129,7 +203,7 @@ const Dashboard = () => {
         >
           <rect width="40" height="40" rx="8" fill="#DCFCE7" />
           <path
-            d="M17 27V21C17 20.4696 16.7893 19.9609 16.4142 19.5858C16.0391 19.2107 15.5304 19 15 19H13C12.4696 19 11.9609 19.2107 11.5858 19.5858C11.2107 19.9609 11 20.4696 11 21V27C11 27.5304 11.2107 28.0391 11.5858 28.4142C11.9609 28.7893 12.4696 29 13 29H15C15.5304 29 16.0391 28.7893 16.4142 28.4142C16.7893 28.0391 17 27.5304 17 27ZM17 27V17C17 16.4696 17.2107 15.9609 17.5858 15.5858C17.9609 15.2107 18.4696 15 19 15H21C21.5304 15 22.0391 15.2107 22.4142 15.5858C22.7893 15.9609 23 16.4696 23 17V27M17 27C17 27.5304 17.2107 28.0391 17.5858 28.4142C17.9609 28.7893 18.4696 29 19 29H21C21.5304 29 22.0391 28.7893 22.4142 28.4142C22.7893 28.0391 23 27.5304 23 27M23 27V13C23 12.4696 23.2107 11.9609 23.5858 11.5858C23.9609 11.2107 24.4696 11 25 11H27C27.5304 11 28.0391 11.2107 28.4142 11.5858C28.7893 11.9609 29 12.4696 29 13V27C29 27.5304 28.7893 28.0391 28.4142 28.4142C28.0391 28.7893 27.5304 29 27 29H25C24.4696 29 23.9609 28.7893 23.5858 28.4142C23.2107 28.0391 23 27.5304 23 27Z"
+            d="M17 27V21C17 20.4696 16.7893 19.9609 16.4142 19.5858C16.0391 19.2107 15.5304 19 15 19H13C12.4696 19 11.9609 19.2107 11.5858 19.5858C11.2107 19.9609 11 20.4696 11 21V27C11 27.5304 11.2107 28.0391 11.5858 28.4142C11.2107 28.7893 12.4696 29 13 29H15C15.5304 29 16.0391 28.7893 16.4142 28.4142C16.7893 28.0391 17 27.5304 17 27ZM17 27V17C17 16.4696 17.2107 15.9609 17.5858 15.5858C17.9609 15.2107 18.4696 15 19 15H21C21.5304 15 22.0391 15.2107 22.4142 15.5858C22.7893 15.9609 23 16.4696 23 17V27M17 27C17 27.5304 17.2107 28.0391 17.5858 28.4142C17.9609 28.7893 18.4696 29 19 29H21C21.5304 29 22.0391 28.7893 22.4142 28.4142C22.7893 28.0391 23 27.5304 23 27M23 27V13C23 12.4696 23.2107 11.9609 23.5858 11.5858C23.9609 11.2107 24.4696 11 25 11H27C27.5304 11 28.0391 11.2107 28.4142 11.5858C28.7893 11.9609 29 12.4696 29 13V27C29 27.5304 28.7893 28.0391 28.4142 28.4142C28.0391 28.7893 27.5304 29 27 29H25C24.4696 29 23.9609 28.7893 23.5858 28.4142C23.2107 28.0391 23 27.5304 23 27Z"
             stroke="#16A34A"
             strokeWidth="2"
             strokeLinecap="round"
@@ -139,9 +213,11 @@ const Dashboard = () => {
       ),
     },
     {
-      title: "Customers",
-      value: "1,247",
-      change: <span className="text-green-500">+23 this month</span>,
+      title: "Categories",
+      value: categories.length.toString(),
+      change: (
+        <span className="text-green-500">+{categories.length} total</span>
+      ),
       changeType: "positive",
       icon: (
         <svg
@@ -168,7 +244,7 @@ const Dashboard = () => {
     <div className="space-y-8">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
+        {dashboardStats.map((stat, index) => (
           <div
             key={index}
             className="bg-white dark:bg-gray-800 rounded-xl border border-background-50 dark:border-gray-700 p-6"
@@ -179,7 +255,7 @@ const Dashboard = () => {
                   {stat.title}
                 </p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {stat.value}
+                  {loading ? "..." : stat.value}
                 </p>
               </div>
               <div className="rounded-lg">{stat.icon}</div>
@@ -196,7 +272,7 @@ const Dashboard = () => {
               >
                 {stat.change}
               </span>
-              {stat.title !== "Customers" && (
+              {stat.title !== "Categories" && stat.title !== "Products" && (
                 <span className="text-sm text-gray-700 dark:text-gray-400 ml-1">
                   from last month
                 </span>
@@ -207,11 +283,11 @@ const Dashboard = () => {
       </div>
 
       <div className="flex flex-col w-full md:flex-row items-start gap-6">
-        {/* Recent Orders */}
+        {/* Recent Activity */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-background-50 dark:border-gray-700 p-6 flex-1">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Recent Orders
+              Recent Activity
             </h3>
             <Link
               href="/dashboard/orders"
@@ -221,44 +297,51 @@ const Dashboard = () => {
             </Link>
           </div>
           <div className="space-y-4">
-            {recentOrders.map((order) => (
-              <div
-                key={order.id}
-                className="flex items-center justify-between p-4 bg-background-50 dark:bg-gray-700 rounded-lg"
-              >
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center">
-                    <i className="ri-shopping-bag-line text-primary-400"></i>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      {order.customer}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {order.product}
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="font-semibold text-gray-900 dark:text-white">
-                    {order.amount}
-                  </p>
-                  <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      order.status === "Delivered"
-                        ? "bg-green-100 text-green-800"
-                        : order.status === "Processing"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : order.status === "Shipped"
-                            ? "bg-blue-100 text-blue-800"
-                            : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </div>
+            {activityLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-400"></div>
               </div>
-            ))}
+            ) : recentActivity.length > 0 ? (
+              recentActivity.map((activity) => (
+                <div
+                  key={activity.id}
+                  className="flex items-center justify-between p-4 bg-background-50 dark:bg-gray-700 rounded-lg"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center">
+                      <i className="ri-shopping-bag-line text-primary-400"></i>
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {activity.customer}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {activity.product} (Qty: {activity.quantity})
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-gray-900 dark:text-white">
+                      {activity.amount}
+                    </p>
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        activity.status === "In Cart"
+                          ? "bg-blue-100 text-blue-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {activity.status}
+                    </span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                <i className="ri-inbox-line text-4xl mb-2"></i>
+                <p>No recent activity</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -268,15 +351,24 @@ const Dashboard = () => {
             Quick Actions
           </h3>
           <div className="space-y-3">
-            <Link
-              href="/dashboard/products"
-              className="flex items-center p-3 rounded-lg bg-background-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900 transition-colors"
+            <button
+              onClick={() => setShowAddProductModal(true)}
+              className="flex items-center w-full p-3 rounded-lg bg-background-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900 transition-colors text-left"
             >
               <i className="ri-add-line text-primary-400 mr-3"></i>
               <span className="text-gray-900 dark:text-white">
                 Add New Product
               </span>
-            </Link>
+            </button>
+            <button
+              onClick={() => setShowAddCategoryModal(true)}
+              className="flex items-center w-full p-3 rounded-lg bg-background-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900 transition-colors text-left"
+            >
+              <i className="ri-folder-add-line text-primary-400 mr-3"></i>
+              <span className="text-gray-900 dark:text-white">
+                Add New Category
+              </span>
+            </button>
             <Link
               href="/dashboard/orders"
               className="flex items-center p-3 rounded-lg bg-background-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900 transition-colors"
@@ -305,6 +397,89 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Product Analytics Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Category Distribution */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-background-50 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+            Category Distribution
+          </h3>
+          <div className="space-y-4">
+            {productAnalytics.productsByCategory &&
+            productAnalytics.productsByCategory.length > 0 ? (
+              productAnalytics.productsByCategory.map((category, index) => (
+                <div
+                  key={category.categoryId}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{
+                        backgroundColor: `hsl(${index * 60}, 70%, 50%)`,
+                      }}
+                    ></div>
+                    <span className="text-gray-900 dark:text-white font-medium">
+                      {category.categoryName}
+                    </span>
+                  </div>
+                  <span className="text-gray-600 dark:text-gray-400">
+                    {category.productCount} products
+                  </span>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                <i className="ri-folder-line text-4xl mb-2"></i>
+                <p>No categories found</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Recent Products */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-background-50 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+            Recent Products
+          </h3>
+          <div className="space-y-4">
+            {productAnalytics.recentProducts &&
+            productAnalytics.recentProducts.length > 0 ? (
+              productAnalytics.recentProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="flex items-center justify-between p-3 bg-background-50 dark:bg-gray-700 rounded-lg"
+                >
+                  <div>
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      {product.name}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {product.category}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {product.isFeatured && (
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                        Featured
+                      </span>
+                    )}
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                      {new Date(product.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                <i className="ri-box-line text-4xl mb-2"></i>
+                <p>No recent products</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 
@@ -314,6 +489,16 @@ const Dashboard = () => {
       description="Manage your ceramics business efficiently"
     >
       {dashboardContent}
+      <AddProductModal
+        isOpen={showAddProductModal}
+        onClose={() => setShowAddProductModal(false)}
+        onSuccess={refreshDashboardData}
+      />
+      <AddCategoryModal
+        isOpen={showAddCategoryModal}
+        onClose={() => setShowAddCategoryModal(false)}
+        onSuccess={refreshDashboardData}
+      />
     </ReportDashboardLayout>
   );
 };

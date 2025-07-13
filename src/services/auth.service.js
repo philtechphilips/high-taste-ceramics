@@ -14,3 +14,19 @@ export const signUp = async (firstName, lastName, email, password) => {
   });
   return res.data;
 };
+
+export const changePassword = async (currentPassword, newPassword, token) => {
+  const res = await axiosInstance.put(
+    "/auth/change-password",
+    {
+      currentPassword,
+      newPassword,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return res.data;
+};

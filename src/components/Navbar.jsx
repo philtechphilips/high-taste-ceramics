@@ -293,6 +293,13 @@ const Navbar = () => {
               Contact Us
             </Link>
           </li>
+          {user && (
+            <li className="border-b py-2 border-[rgba(36,34,34,0.15)]">
+              <Link href="/profile" className="font-semibold text-sm">
+                Profile
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </>

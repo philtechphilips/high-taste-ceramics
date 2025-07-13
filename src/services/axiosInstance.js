@@ -5,14 +5,37 @@ const axiosInstance = axios.create({
   withCredentials: false,
 });
 
+// Global toast notification function
+let showToast = null;
+let logout = null;
+
+export const setToastFunction = (toastFunction) => {
+  showToast = toastFunction;
+};
+
+export const setLogoutFunction = (logoutFunction) => {
+  logout = logoutFunction;
+};
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Optionally, redirect to sign-in or show a toast
-      // window.location.href = "/sign-in";
-      // Or use a toast notification
-      // toast.error("Session expired. Please sign in again.");
+      // Show session expired toast
+      if (showToast) {
+        showToast("Session expired. Please sign in again.", "error");
+      }
+
+      // Logout user using auth store
+      if (logout) {
+        logout();
+      } else {
+        // Fallback: manually clear localStorage and redirect
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("user");
+          window.location.href = "/sign-in";
+        }
+      }
     }
     return Promise.reject(error);
   },

@@ -6,7 +6,7 @@ export const fetchProductCategories = async (token) => {
 };
 
 export const fetchProducts = async () => {
-  const response = await axiosInstance.get("/product");
+  const response = await axiosInstance.get("/product/products");
   return response.data;
 };
 
@@ -30,6 +30,73 @@ export const checkout = async (data, token) => {
   const response = await axiosInstance.post(
     `/cart/checkout`,
     { ...data },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+};
+
+// Admin Product Management
+export const addProduct = async (productData, token) => {
+  const response = await axiosInstance.post("/product", productData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+export const updateProduct = async (productId, productData, token) => {
+  const response = await axiosInstance.put(
+    `/product/${productId}`,
+    productData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+};
+
+export const deleteProduct = async (productId, token) => {
+  const response = await axiosInstance.delete(`/product/${productId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+// Admin Category Management
+export const addCategory = async (categoryData, token) => {
+  const response = await axiosInstance.post("/product/category", categoryData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+export const updateCategory = async (categoryId, categoryData, token) => {
+  const response = await axiosInstance.put(
+    `/admin/categories/${categoryId}`,
+    categoryData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+};
+
+export const deleteCategory = async (categoryId, token) => {
+  const response = await axiosInstance.delete(
+    `/product/category/${categoryId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

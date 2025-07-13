@@ -1,4 +1,6 @@
 import "./globals.css";
+import { ToastProvider } from "../contexts/ToastContext";
+import ToastInitializer from "../components/ToastInitializer";
 
 export const metadata = {
   title: "High Taste Ceramics",
@@ -9,7 +11,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>{children}</body>
+      <body className={`antialiased`}>
+        <ToastProvider>
+          <ToastInitializer />
+          {children}
+        </ToastProvider>
+      </body>
     </html>
   );
 }
