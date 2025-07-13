@@ -13,6 +13,7 @@ import {
   getAllCategories,
   getProductAnalytics,
 } from "../../services/admin.service";
+import { getAllBlogs } from "../../services/blog.service";
 import useAuthStore from "../../store/authStore";
 import AddProductModal from "../../components/AddProductModal";
 import AddCategoryModal from "../../components/AddCategoryModal";
@@ -27,6 +28,7 @@ const Dashboard = () => {
   const [recentActivity, setRecentActivity] = useState([]);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [productAnalytics, setProductAnalytics] = useState({
     totalProducts: 0,
     featuredProducts: 0,
@@ -79,13 +81,18 @@ const Dashboard = () => {
           setRecentActivity(transformedActivity);
         }
 
-        // Fetch products and categories for additional stats
-        const [productsResponse, categoriesResponse, analyticsResponse] =
-          await Promise.all([
-            getAllProducts(token),
-            getAllCategories(token),
-            getProductAnalytics(token),
-          ]);
+        // Fetch products, categories, and blogs for additional stats
+        const [
+          productsResponse,
+          categoriesResponse,
+          analyticsResponse,
+          blogsResponse,
+        ] = await Promise.all([
+          getAllProducts(token),
+          getAllCategories(token),
+          getProductAnalytics(token),
+          getAllBlogs(token),
+        ]);
 
         if (productsResponse.payload) {
           setProducts(productsResponse.payload);
@@ -97,6 +104,10 @@ const Dashboard = () => {
 
         if (analyticsResponse.payload) {
           setProductAnalytics(analyticsResponse.payload);
+        }
+
+        if (blogsResponse.payload) {
+          setBlogs(blogsResponse.payload);
         }
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -119,12 +130,12 @@ const Dashboard = () => {
 
   const dashboardStats = [
     {
-      title: "Total Sales",
-      value: stats.totalSales,
+      title: "Total Blogs",
+      value: blogs.length.toString(),
       change: (
         <>
           <i className="ri-arrow-up-line text-green-500 dark:text-green-400 mr-1" />
-          12%
+          {blogs.length}
         </>
       ),
       changeType: "positive",
@@ -160,7 +171,7 @@ const Dashboard = () => {
       change: (
         <>
           <i className="ri-arrow-up-line text-green-500 dark:text-green-400 mr-1" />
-          8%
+          {stats.totalOrders}
         </>
       ),
       changeType: "positive",
@@ -272,11 +283,14 @@ const Dashboard = () => {
               >
                 {stat.change}
               </span>
-              {stat.title !== "Categories" && stat.title !== "Products" && (
-                <span className="text-sm text-gray-700 dark:text-gray-400 ml-1">
-                  from last month
-                </span>
-              )}
+              {stat.title !== "Categories" &&
+                stat.title !== "Products" &&
+                stat.title !== "Total Blogs" &&
+                stat.title !== "Orders" && (
+                  <span className="text-sm text-gray-700 dark:text-gray-400 ml-1">
+                    from last month
+                  </span>
+                )}
             </div>
           </div>
         ))}

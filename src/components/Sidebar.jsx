@@ -83,13 +83,7 @@ const Sidebar = ({ isCollapsed, onToggle }) => {
       {!isCollapsed && (
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <Image
-              src="/images/Logomark.png"
-              width={30}
-              height={30}
-              alt="logo"
-            ></Image>
-            <h2 className="text-gray-900 font-bold text-xl">HTC</h2>
+            <Image src="/logo.png" width={100} height={100} alt="logo"></Image>
           </div>
 
           <button onClick={onToggle} className="absolute top-10 right-4 z-10">

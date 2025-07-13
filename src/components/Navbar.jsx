@@ -160,6 +160,14 @@ const Navbar = () => {
                   >
                     <i className="ri-user-3-line"></i> Profile
                   </Link>
+                  {(user.role === "admin" || user.isAdmin) && (
+                    <Link
+                      href="/dashboard"
+                      className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 border-t"
+                    >
+                      <i className="ri-dashboard-line"></i> Dashboard
+                    </Link>
+                  )}
                   <button
                     onClick={handleLogout}
                     className="flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 border-t"
@@ -297,6 +305,13 @@ const Navbar = () => {
             <li className="border-b py-2 border-[rgba(36,34,34,0.15)]">
               <Link href="/profile" className="font-semibold text-sm">
                 Profile
+              </Link>
+            </li>
+          )}
+          {user && (user.role === "admin" || user.isAdmin) && (
+            <li className="border-b py-2 border-[rgba(36,34,34,0.15)]">
+              <Link href="/dashboard" className="font-semibold text-sm">
+                Dashboard
               </Link>
             </li>
           )}
