@@ -44,7 +44,7 @@ export default function Home() {
         <div className="w-full flex items-center justify-center mt-12 px-5 md:px-20">
           <video
             className="h-180"
-            src="/IMG_1031.MP4"
+            src="https://res.cloudinary.com/dtwmo6wsb/video/upload/v1752417785/IMG_1031_v14usy.mov"
             autoPlay
             loop
             muted

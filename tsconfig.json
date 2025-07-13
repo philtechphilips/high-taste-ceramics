@@ -19,6 +19,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "src/services/auth.service.js", "src/services/axiosInstance.js"],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "src/services/auth.service.js", "src/services/axiosInstance.js", "src/components/Header.jsx", "src/components/ReportDashboardLayout.jsx", "src/components/Sidebar.jsx", "src/app/dashboard/page.jsx", "src/app/dashboard/layout.jsx", "src/components/icons/index.jsx"],
   "exclude": ["node_modules"]
 }

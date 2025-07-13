@@ -12,6 +12,39 @@
   --swiper-scrollbar-size: 4px;
 }
 
+@theme {
+  --color-primary-400: #4984ff;
+  --color-primary-100: #edf2ff;
+  --color-background-50: #f5f7fa;
+  --color-gray-900: #1a202c;
+  --color-gray-700: #718096;
+  --color-gray-800: #4a5568;
+  --color-gray-600: #e2e8f0;
+  --color-green-500: #22c55e;
+  --color-red-500: #ef4444;
+  --color-yellow-500: #eab308;
+  --color-blue-500: #4984ff;
+  --color-text-red: #dc2626;
+  --color-green-bg: #dcfce7;
+  --color-red-bg: #fee2e2;
+  --color-yellow-bg: #fef9c3;
+  --color-green-text: #166534;
+  --color-red-text: #991b1b;
+  --color-yellow-text: #854d0e;
+  --color-progress-yellow: #ca8a04;
+  --color-progress-green: #16a34a;
+  --color-progress-red: #dc2626;
+  --color-text-black: #111827;
+  --color-dark-bg-50: #121826;
+  --color-dark-surface-raised: #242c3d;
+  --color-dark-gray-700: #718096;
+  --color-success-700: #027a48;
+  --color-success-500: #12b76a;
+  --color-dark-green-500: #10b981;
+  --color-dark-yellow-500: #f59e0b;
+  --color-dark-red-500: #ef4444;
+}
+
 @font-face {
   font-family: "News Gothic";
   src:
@@ -52,4 +85,26 @@ body {
   background-size: 200px 100%;
   background-repeat: no-repeat;
   background-image: linear-gradient(90deg, #e5e7eb 0px, #f3f4f6 40px, #e5e7eb 80px);
+}
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.dashboard-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.dashboard-container {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
