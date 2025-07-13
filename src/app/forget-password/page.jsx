@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import MainLayout from "../../components/MainLayout";
 import withAuth from "../../components/withAuth";

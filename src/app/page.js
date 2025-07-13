@@ -21,53 +21,19 @@ export default function Home() {
     <MainLayout>
       <section className="w-full py-40 pt-60 flex flex-col items-center justify-center bg-[#EFEBE2]">
         <div className="md:w-160 w-full flex flex-col gap-8 items-center">
-          <h4
-            data-aos="fade-up"
-            data-aos-offset="200"
-            data-aos-duration="500"
-            data-aos-easing="ease-in-out"
-            data-aos-mirror="true"
-            data-aos-once="true"
-            data-aos-anchor-placement="top-center"
-            className="text-center font-semibold text-sm text-[#242222] uppercase"
-          >
+          <h4 className="text-center font-semibold text-sm text-[#242222] uppercase">
             Premium Building Solutions
           </h4>
-          <h1
-            data-aos="fade-up"
-            data-aos-offset="200"
-            data-aos-duration="500"
-            data-aos-easing="ease-in-out"
-            data-aos-mirror="true"
-            data-aos-once="true"
-            data-aos-anchor-placement="top-center"
-            className="md:text-6xl text-4xl font-normal text-[#242222] text-center leading-18"
-          >
+          <h1 className="md:text-6xl text-4xl font-normal text-[#242222] text-center leading-18">
             Elevate Your Spaces with Timeless Elegance.
           </h1>
-          <p
-            data-aos="fade-up"
-            data-aos-offset="200"
-            data-aos-duration="500"
-            data-aos-easing="ease-in-out"
-            data-aos-mirror="true"
-            data-aos-once="true"
-            data-aos-anchor-placement="top-center"
-            className=" text-center text-[#242222] font-light"
-          >
+          <p className=" text-center text-[#242222] font-light">
             High Taste Ceramics offers a curated selection of premium tiles,
             bathroom fittings, and kitchen solutions designed to meet your taste
             for luxury and quality.
           </p>
 
           <Link
-            data-aos="fade-up"
-            data-aos-offset="200"
-            data-aos-duration="500"
-            data-aos-easing="ease-in-out"
-            data-aos-mirror="true"
-            data-aos-once="true"
-            data-aos-anchor-placement="top-center"
             href="/"
             className="text-sm font-semibold px-7 py-2 rounded-full border border-[#242222] w-fit hover:bg-[#242222] hover:text-white"
           >
@@ -75,24 +41,15 @@ export default function Home() {
           </Link>
         </div>
 
-        <div
-          data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-          className="w-full mt-12 px-5 md:px-20"
-        >
-          <div style={{ position: "relative", width: "100%", height: "700px" }}>
-            <Image
-              alt="hero-image"
-              src="/hero.jpg"
-              fill
-              style={{ objectFit: "cover" }}
-            />
-          </div>
+        <div className="w-full flex items-center justify-center mt-12 px-5 md:px-20">
+          <video
+            className="h-180"
+            src="/IMG_1031.MP4"
+            autoPlay
+            loop
+            muted
+            controls
+          ></video>
         </div>
       </section>
 
