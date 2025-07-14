@@ -36,6 +36,9 @@ const Navbar = () => {
     setDropdownOpen(false);
     router.push("/sign-in");
   };
+  const handleLinkClick = () => {
+    setDropdownOpen(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -156,13 +159,22 @@ const Navbar = () => {
                 <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border z-50">
                   <Link
                     href="/profile"
+                    onClick={handleLinkClick}
                     className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
                   >
                     <i className="ri-user-3-line"></i> Profile
                   </Link>
+                  <Link
+                    href="/orders"
+                    onClick={handleLinkClick}
+                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 border-t"
+                  >
+                    <i className="ri-file-list-3-line"></i> My Orders
+                  </Link>
                   {(user.role === "admin" || user.isAdmin) && (
                     <Link
                       href="/dashboard"
+                      onClick={handleLinkClick}
                       className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 border-t"
                     >
                       <i className="ri-dashboard-line"></i> Dashboard
@@ -305,6 +317,13 @@ const Navbar = () => {
             <li className="border-b py-2 border-[rgba(36,34,34,0.15)]">
               <Link href="/profile" className="font-semibold text-sm">
                 Profile
+              </Link>
+            </li>
+          )}
+          {user && (
+            <li className="border-b py-2 border-[rgba(36,34,34,0.15)]">
+              <Link href="/orders" className="font-semibold text-sm">
+                My Orders
               </Link>
             </li>
           )}

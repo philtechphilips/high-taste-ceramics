@@ -21,6 +21,10 @@ const OrdersPage = () => {
         const response = await getAllOrders(token);
         if (response.payload) {
           setOrders(response.payload);
+        } else if (Array.isArray(response)) {
+          setOrders(response);
+        } else {
+          setOrders([]);
         }
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -45,8 +49,8 @@ const OrdersPage = () => {
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
-      order.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.id.toLowerCase().includes(searchTerm.toLowerCase());
+      order.customer?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.id?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus =
       selectedStatus === "All" || order.status === selectedStatus;
     return matchesSearch && matchesStatus;
@@ -69,19 +73,6 @@ const OrdersPage = () => {
     }
   };
 
-  const getPaymentColor = (payment) => {
-    switch (payment) {
-      case "Paid":
-        return "bg-green-100 text-green-800";
-      case "Pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "Refunded":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
   return (
     <ReportDashboardLayout
       title="Orders"
@@ -89,19 +80,6 @@ const OrdersPage = () => {
       showActionButtons={false}
     >
       <div className="space-y-6">
-        {/* Info Banner */}
-        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-          <div className="flex items-center">
-            <i className="ri-check-line text-green-500 mr-2"></i>
-            <p className="text-green-700 dark:text-green-300 text-sm">
-              Orders are now stored in the database and can be managed directly
-              from this dashboard. When customers checkout, orders are
-              automatically created and email notifications are sent to the
-              admin.
-            </p>
-          </div>
-        </div>
-
         {/* Filters */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-background-50 dark:border-gray-700 p-6">
           <div className="flex flex-col md:flex-row gap-4">
@@ -189,15 +167,7 @@ const OrdersPage = () => {
                       </span>
                     ),
                   },
-                  {
-                    header: "Total",
-                    key: "total",
-                    render: (value) => (
-                      <span className="font-semibold text-gray-900 dark:text-white">
-                        {value}
-                      </span>
-                    ),
-                  },
+
                   {
                     header: "Status",
                     key: "status",
@@ -209,17 +179,7 @@ const OrdersPage = () => {
                       </span>
                     ),
                   },
-                  {
-                    header: "Payment",
-                    key: "payment",
-                    render: (value) => (
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPaymentColor(value)}`}
-                      >
-                        {value}
-                      </span>
-                    ),
-                  },
+
                   {
                     header: "Actions",
                     key: "id",
@@ -231,9 +191,6 @@ const OrdersPage = () => {
                         >
                           View
                         </Link>
-                        <button className="text-primary-400 hover:text-primary-600 text-sm font-medium">
-                          Update
-                        </button>
                       </div>
                     ),
                   },

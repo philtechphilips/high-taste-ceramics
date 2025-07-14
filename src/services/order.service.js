@@ -1,6 +1,6 @@
 import axiosInstance from "./axiosInstance";
 
-// Get all orders
+// Get all orders (admin only)
 export const getAllOrders = async (token) => {
   try {
     const response = await axiosInstance.get("/orders", {
@@ -11,6 +11,36 @@ export const getAllOrders = async (token) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching orders:", error);
+    throw error;
+  }
+};
+
+// Get user's orders
+export const getUserOrders = async (token) => {
+  try {
+    const response = await axiosInstance.get("/orders/user/orders", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    throw error;
+  }
+};
+
+// Get user's order by ID
+export const getUserOrderById = async (orderId, token) => {
+  try {
+    const response = await axiosInstance.get(`/orders/user/orders/${orderId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user order:", error);
     throw error;
   }
 };

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 import MainLayout from "../../components/MainLayout";
 import useAuthStore from "../../store/authStore";
 import useCartStore from "../../store/cartStore";
@@ -11,7 +12,8 @@ import toast from "react-hot-toast";
 
 const Checkout = () => {
   const user = useAuthStore((state) => state.user);
-  const { cart } = useCartStore();
+  const { cart, clearCart } = useCartStore();
+  const router = useRouter();
   const [form, setForm] = useState({
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
@@ -59,7 +61,9 @@ const Checkout = () => {
       };
       await checkout(payload, user?.token);
       toast.success("Order submitted successfully!");
-      // Optionally, redirect or clear cart here
+      // Clear cart and redirect to orders page
+      clearCart();
+      router.push("/orders");
     } catch (error) {
       toast.error("Failed to submit order. Please try again.");
     } finally {
