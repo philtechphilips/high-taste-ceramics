@@ -98,16 +98,7 @@ const OrderDetailsPage = () => {
             >
               <i className="ri-arrow-left-line text-xl"></i>
             </Link>
-            <h1
-              data-aos="fade-up"
-              data-aos-offset="200"
-              data-aos-duration="500"
-              data-aos-easing="ease-in-out"
-              data-aos-mirror="true"
-              data-aos-once="true"
-              data-aos-anchor-placement="top-center"
-              className="md:text-5xl text-3xl !font-[300] text-[#242222] font-[Publicko] leading-18"
-            >
+            <h1 className="md:text-5xl text-3xl !font-[300] text-[#242222] font-[Publicko] leading-18">
               Order Details
             </h1>
           </div>

@@ -43,7 +43,7 @@ export default function Home() {
 
         <div className="w-full flex items-center justify-center mt-12 px-5 md:px-20">
           <video
-            className="h-180"
+            className="md:h-180 h-fit"
             src="https://res.cloudinary.com/dtwmo6wsb/video/upload/v1752417785/IMG_1031_v14usy.mov"
             autoPlay
             loop
@@ -66,11 +66,7 @@ export default function Home() {
           Why High Taste Ceramics?
         </h1>
 
-        <div
-          data-aos="fade-right"
-          data-aos-duration="500"
-          className="grid sm:grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto"
-        >
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
           {[
             "Premium European-Grade Products",
             "Trusted by Builders, Architects, & Homeowners",

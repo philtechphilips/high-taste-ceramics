@@ -27,16 +27,7 @@ const Cart = () => {
     <MainLayout>
       <section className="w-full md:px-10 px-5 bg-white pt-60 pb-20">
         <div className="max-w-7xl mx-auto">
-          <h1
-            data-aos="fade-up"
-            data-aos-offset="200"
-            data-aos-duration="500"
-            data-aos-easing="ease-in-out"
-            data-aos-mirror="true"
-            data-aos-once="true"
-            data-aos-anchor-placement="top-center"
-            className="md:text-5xl text-3xl !font-[300] text-[#242222] font-[Publicko] leading-18"
-          >
+          <h1 className="md:text-5xl text-3xl !font-[300] text-[#242222] font-[Publicko] leading-18">
             Your Cart
           </h1>
 

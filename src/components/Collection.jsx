@@ -62,13 +62,6 @@ const Collection = () => {
                   alt={cat?.name || "Category"}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  data-aos="fade-up"
-                  data-aos-offset="200"
-                  data-aos-duration="500"
-                  data-aos-easing="ease-in-out"
-                  data-aos-mirror="true"
-                  data-aos-once="true"
-                  data-aos-anchor-placement="top-center"
                 />
                 <div className="flex flex-col w-[90%] absolute bottom-5 py-2 items-center justify-center bg-white/80">
                   <p className="relative text-center font-semibold text-[#242222]">

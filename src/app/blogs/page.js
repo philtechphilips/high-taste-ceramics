@@ -58,30 +58,12 @@ const Blogs = () => {
     <MainLayout>
       <section className="w-full py-40 pt-60 flex flex-col items-center justify-center bg-[#EFEBE2] md:px-10 px-5">
         <div className="w-full flex flex-col gap-8 items-center border-b border-[rgba(36,34,34,0.15)] pb-10 mb-14">
-          <h1
-            data-aos="fade-up"
-            data-aos-offset="200"
-            data-aos-duration="500"
-            data-aos-easing="ease-in-out"
-            data-aos-mirror="true"
-            data-aos-once="true"
-            data-aos-anchor-placement="top-center"
-            className="md:text-[140px] text-4xl !font-[300] text-[#242222] font-[Publicko] text-center leading-18 "
-          >
+          <h1 className="md:text-[140px] text-4xl !font-[300] text-[#242222] font-[Publicko] text-center leading-18 ">
             Blogs
           </h1>
         </div>
 
-        <div
-          data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-          data-aos-once="true"
-          data-aos-anchor-placement="top-center"
-          className="w-full mt-12 px-5 md:px-20"
-        >
+        <div className="w-full mt-12 px-5 md:px-20">
           <div style={{ position: "relative", width: "100%", height: "700px" }}>
             <Image
               alt="hero-image"
@@ -134,13 +116,6 @@ const Blogs = () => {
                     alt={blog.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    data-aos="fade-up"
-                    data-aos-offset="200"
-                    data-aos-duration="500"
-                    data-aos-easing="ease-in-out"
-                    data-aos-mirror="true"
-                    data-aos-once="true"
-                    data-aos-anchor-placement="top-center"
                   />
                 </div>
                 <p className="relative mt-4 text-left text-[#242222] text-sm">

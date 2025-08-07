@@ -92,13 +92,6 @@ const Shop = () => {
                         alt={cat?.name}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        data-aos="fade-up"
-                        data-aos-offset="200"
-                        data-aos-duration="500"
-                        data-aos-easing="ease-in-out"
-                        data-aos-mirror="true"
-                        data-aos-once="true"
-                        data-aos-anchor-placement="top-center"
                       />
                       {/* Add to Cart Button with Custom Tooltip */}
                       <div className="absolute top-5 right-5 group/cart">
